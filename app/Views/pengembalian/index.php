@@ -99,9 +99,16 @@
                 <tbody class="divide-y divide-slate-100 dark:divide-slate-800/80">
                     <?php if (empty($pinjamanAktif)): ?>
                         <tr>
-                            <td colspan="7" class="px-5 py-12 text-center text-slate-400 dark:text-slate-500">
-                                <i data-lucide="check-check" class="w-10 h-10 mx-auto text-emerald-500 mb-2"></i>
-                                Semua buku telah dikembalikan. Tidak ada peminjaman yang aktif saat ini.
+                            <td colspan="7" class="px-5 py-12 text-center">
+                                <div class="max-w-xs mx-auto space-y-3">
+                                    <div class="w-12 h-12 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 flex items-center justify-center mx-auto text-[#2F6E4E] dark:text-emerald-400 shadow-2xs border border-emerald-200/80 dark:border-emerald-800/80">
+                                        <i data-lucide="check-check" class="w-6 h-6 stroke-[1.75]"></i>
+                                    </div>
+                                    <div class="space-y-1">
+                                        <h5 class="font-serif font-bold text-sm text-[#1B2A4A] dark:text-slate-200">Seluruh Koleksi Tertib</h5>
+                                        <p class="text-xs text-[#5C6470] dark:text-slate-400">Semua buku telah dikembalikan atau tidak ada transaksi peminjaman aktif yang menunggu pengembalian.</p>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                     <?php else: ?>

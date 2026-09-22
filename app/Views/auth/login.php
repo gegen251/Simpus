@@ -20,35 +20,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
     
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        navy: {
-                            700: '#233760',
-                            800: '#1B2A4A',
-                            900: '#101B30',
-                            950: '#0A1120',
-                        },
-                        terracotta: {
-                            400: '#D9754C',
-                            500: '#C1613A',
-                            600: '#AB512D',
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['"IBM Plex Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-                        serif: ['"IBM Plex Serif"', 'serif'],
-                        mono: ['"IBM Plex Mono"', 'monospace'],
-                    }
-                }
-            }
-        }
-    </script>
+    <!-- Production Compiled Tailwind CSS & Custom Tokens -->
+    <link rel="stylesheet" href="<?= base_url('css/app.css') ?>">
+
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body class="bg-[#FBF9F5] dark:bg-[#0C121E] min-h-screen flex items-center justify-center p-4 sm:p-6 selection:bg-navy-800 selection:text-white relative font-sans transition-colors duration-200">

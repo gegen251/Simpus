@@ -13,6 +13,7 @@ $scripts = [
     "test_qa_pengaturan.php",
     "test_qa_staf.php",
     "test_qa_katalog.php",
+    "test_qa_uiux.php",
 ];
 
 $totalPassed = 0;

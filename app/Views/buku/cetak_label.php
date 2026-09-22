@@ -9,20 +9,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Serif:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['"IBM Plex Sans"', 'sans-serif'],
-                        serif: ['"IBM Plex Serif"', 'serif'],
-                        mono: ['"IBM Plex Mono"', 'monospace'],
-                    }
-                }
-            }
-        }
-    </script>
+    <!-- Production Compiled Tailwind CSS & Custom Tokens -->
+    <link rel="stylesheet" href="<?= base_url('css/app.css') ?>">
     <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
 
     <style>
@@ -239,7 +227,7 @@
 
         <!-- Tips Cetak Rapi -->
         <div class="mt-3 pt-3 border-t border-[#E5DFD3]/70 flex flex-wrap items-center justify-between text-[11px] text-[#5C6470] gap-2">
-            <span>💡 <strong>Tips Cetak Rapi:</strong> Pada dialog print browser, pilih <em>Paper Size: A4</em>, <em>Margins: None / Minimum</em>, dan centang <em>"Background graphics"</em>.</span>
+            <span class="flex items-center gap-1.5"><svg class="w-3.5 h-3.5 text-[#B8791F] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> <strong>Tips Cetak Rapi:</strong> Pada dialog print browser, pilih <em>Paper Size: A4</em>, <em>Margins: None / Minimum</em>, dan centang <em>"Background graphics"</em>.</span>
             <span class="font-mono text-[10px] text-[#1B2A4A] font-semibold">Ukuran Stiker: 95mm &times; 36mm</span>
         </div>
     </div>

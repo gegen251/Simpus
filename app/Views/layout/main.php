@@ -19,50 +19,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
     
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        navy: {
-                            50: '#F0F4F8',
-                            100: '#D9E2EC',
-                            200: '#BCCCDC',
-                            700: '#243B53',
-                            800: '#1B2A4A',
-                            900: '#101B30',
-                            950: '#0A1120',
-                        },
-                        terracotta: {
-                            50: '#FDF6F3',
-                            100: '#FCECE6',
-                            500: '#C1613A',
-                            600: '#AB512D',
-                            700: '#8E3E1F',
-                        },
-                        mutedgreen: {
-                            50: '#F1F7F4',
-                            500: '#2F6E4E',
-                            600: '#26593F',
-                        },
-                        mutedamber: {
-                            50: '#FDF9F0',
-                            500: '#B8791F',
-                            600: '#9B6416',
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['"IBM Plex Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-                        serif: ['"IBM Plex Serif"', 'serif'],
-                        mono: ['"IBM Plex Mono"', 'monospace'],
-                    }
-                }
-            }
-        }
-    </script>
+    <!-- Production Compiled Tailwind CSS & Custom Tokens -->
+    <link rel="stylesheet" href="<?= base_url('css/app.css') ?>">
 
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -70,37 +28,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    <style>
-        body {
-            font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
-        }
-        /* Custom clean scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #F1F5F9;
-        }
-        .dark ::-webkit-scrollbar-track {
-            background: #0F172A;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #CBD5E1;
-            border-radius: 3px;
-        }
-        .dark ::-webkit-scrollbar-thumb {
-            background: #334155;
-            border-radius: 3px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #94A3B8;
-        }
-        .dark ::-webkit-scrollbar-thumb:hover {
-            background: #475569;
-        }
-    </style>
 </head>
 <body class="bg-slate-50 dark:bg-[#0B111E] text-slate-800 dark:text-slate-100 font-sans antialiased min-h-screen flex flex-col selection:bg-navy-800 selection:text-white transition-colors duration-200 relative">
 

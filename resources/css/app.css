@@ -1,0 +1,95 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Focus visible accessibility outline for WCAG AA */
+  :focus-visible {
+    outline: 2px solid #1B2A4A;
+    outline-offset: 2px;
+  }
+  .dark :focus-visible {
+    outline: 2px solid #60A5FA;
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  /* Skeleton Loading Animation */
+  .skeleton-shimmer {
+    background: linear-gradient(
+      90deg,
+      rgba(229, 231, 235, 0.6) 0%,
+      rgba(243, 244, 246, 0.9) 50%,
+      rgba(229, 231, 235, 0.6) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+  .dark .skeleton-shimmer {
+    background: linear-gradient(
+      90deg,
+      rgba(30, 41, 59, 0.6) 0%,
+      rgba(51, 65, 85, 0.9) 50%,
+      rgba(30, 41, 59, 0.6) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+
+  /* Academic Card Style */
+  .card-simpus {
+    @apply bg-white dark:bg-[#131B2E] rounded-xl border border-slate-200 dark:border-slate-800 shadow-xs transition-colors;
+  }
+
+  /* Touch Friendly Buttons for Kiosk & Tablet (Min 44x44px) */
+  .btn-touch {
+    @apply min-h-[44px] min-w-[44px] inline-flex items-center justify-center px-4 py-2.5 rounded-lg font-semibold transition-all;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Custom Clean Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 3px;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+/* Hide scrollbar utility */
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

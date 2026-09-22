@@ -20,49 +20,11 @@
         }
     </script>
 
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        navy: {
-                            700: '#233760',
-                            800: '#1B2A4A',
-                            900: '#121C31',
-                            950: '#0A101D',
-                        },
-                        terracotta: {
-                            400: '#D9754C',
-                            500: '#C1613A',
-                            600: '#A95330',
-                        },
-                        parchment: {
-                            50: '#FDFBF7',
-                            100: '#FBF9F5',
-                            200: '#F4EFE6',
-                            300: '#E8E1D3',
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['"IBM Plex Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-                        serif: ['"IBM Plex Serif"', 'serif'],
-                        mono: ['"IBM Plex Mono"', 'monospace'],
-                    }
-                }
-            }
-        }
-    </script>
+    <!-- Production Compiled Tailwind CSS & Custom Tokens -->
+    <link rel="stylesheet" href="<?= base_url('css/app.css') ?>">
+
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    
-    <style>
-        body {
-            font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
-        }
-    </style>
 </head>
 <body class="bg-[#FBF9F5] dark:bg-[#0C1222] text-[#2C3E50] dark:text-slate-100 min-h-screen flex flex-col justify-between selection:bg-[#1B2A4A] selection:text-white transition-colors duration-200">
 
@@ -438,8 +400,8 @@
             const feedback = document.getElementById('feedbackAnggota');
             if (!val) return;
 
-            feedback.className = "mt-3 text-xs font-semibold text-[#1B2A4A] dark:text-amber-300";
-            feedback.textContent = "Memverifikasi data anggota...";
+            feedback.className = "mt-3 text-xs font-semibold text-[#1B2A4A] dark:text-amber-300 flex items-center justify-center gap-2";
+            feedback.innerHTML = '<svg class="animate-spin w-4 h-4 text-[#1B2A4A] dark:text-amber-300 shrink-0" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg><span>Memverifikasi kartu anggota siswa...</span>';
             feedback.classList.remove('hidden');
 
             try {
@@ -553,7 +515,7 @@
 
             const btn = document.getElementById('btnKonfirmasiPinjam');
             btn.disabled = true;
-            btn.textContent = "Memproses...";
+            btn.innerHTML = '<svg class="animate-spin w-4 h-4 text-white inline-block mr-2" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg><span>Menyimpan Transaksi...</span>';
 
             try {
                 const formData = new FormData();
@@ -596,8 +558,8 @@
             const feedback = document.getElementById('feedbackKembali');
             if (!val) return;
 
-            feedback.className = "mt-3 text-xs font-semibold text-[#2F6E4E] dark:text-emerald-400";
-            feedback.textContent = "Mencari data peminjaman buku...";
+            feedback.className = "mt-3 text-xs font-semibold text-[#2F6E4E] dark:text-emerald-400 flex items-center justify-center gap-2";
+            feedback.innerHTML = '<svg class="animate-spin w-4 h-4 text-[#2F6E4E] dark:text-emerald-400 shrink-0" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg><span>Mencari data transaksi peminjaman buku...</span>';
             feedback.classList.remove('hidden');
 
             try {

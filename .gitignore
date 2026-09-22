@@ -128,3 +128,10 @@ _modules/*
 # Backups
 backups/
 *.zip
+
+# Node Dependencies
+node_modules/
+package-lock.json
+
+# Test Artifacts & Cookies
+scripts/*.txt

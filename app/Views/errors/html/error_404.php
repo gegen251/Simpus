@@ -11,34 +11,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Serif:wght@600;700&display=swap" rel="stylesheet">
     
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        navy: {
-                            700: '#233760',
-                            800: '#1B2A4A',
-                            900: '#101B30',
-                            950: '#0A1120',
-                        },
-                        terracotta: {
-                            400: '#D9754C',
-                            500: '#C1613A',
-                            600: '#AB512D',
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['"IBM Plex Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-                        serif: ['"IBM Plex Serif"', 'serif'],
-                    }
-                }
-            }
-        }
-    </script>
+    <!-- Production Compiled Tailwind CSS & Custom Tokens -->
+    <link rel="stylesheet" href="<?= base_url('css/app.css') ?>">
 </head>
 <body class="bg-slate-50 dark:bg-navy-950 text-slate-800 dark:text-slate-100 font-sans min-h-screen flex items-center justify-center p-4 selection:bg-amber-500 selection:text-white">
     <div class="max-w-lg w-full bg-white dark:bg-navy-900 border border-slate-200 dark:border-navy-800 rounded-2xl shadow-xl p-8 text-center relative overflow-hidden">
