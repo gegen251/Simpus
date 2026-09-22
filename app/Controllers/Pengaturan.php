@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\PengaturanModel;
+use App\Models\AuditLogModel;
 
 class Pengaturan extends BaseController
 {
@@ -15,10 +16,6 @@ class Pengaturan extends BaseController
 
     public function index()
     {
-        if (session()->get('admin_role') !== 'admin') {
-            return redirect()->to(site_url('/dashboard'))->with('error', 'Akses ditolak: Menu pengaturan sistem hanya dapat diakses oleh Administrator Utama.');
-        }
-
         $data = [
             'title'       => 'Pengaturan Sistem & Perpustakaan',
             'active_menu' => 'pengaturan',
@@ -30,10 +27,6 @@ class Pengaturan extends BaseController
 
     public function update()
     {
-        if (session()->get('admin_role') !== 'admin') {
-            return redirect()->to(site_url('/dashboard'))->with('error', 'Akses ditolak: Anda tidak memiliki izin untuk mengubah pengaturan sistem.');
-        }
-
         $rules = [
             'nama_perpustakaan'     => 'required|min_length[3]|max_length[255]',
             'alamat_perpustakaan'   => 'required|max_length[500]',
@@ -55,14 +48,24 @@ class Pengaturan extends BaseController
             'durasi_pinjam_default',
             'tarif_denda_per_hari',
             'max_pinjam_buku',
+            'kiosk_allowed_ips',
+            'kiosk_secret_token',
         ];
 
+        $updatedKeys = [];
         foreach ($inputs as $key) {
             $val = $this->request->getPost($key);
             if ($val !== null) {
                 $this->pengaturanModel->updateKunci($key, trim($val));
+                $updatedKeys[] = $key;
             }
         }
+
+        // Audit Log
+        AuditLogModel::record(
+            'UBAH_PENGATURAN',
+            'Memperbarui konfigurasi parameter perpustakaan: ' . implode(', ', $updatedKeys) . '.'
+        );
 
         return redirect()->to(site_url('/pengaturan'))->with('success', 'Pengaturan sistem perpustakaan berhasil disimpan.');
     }

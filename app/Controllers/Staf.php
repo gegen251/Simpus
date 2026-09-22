@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\AdminModel;
+use App\Models\AuditLogModel;
 
 class Staf extends BaseController
 {
@@ -15,11 +16,6 @@ class Staf extends BaseController
 
     public function index()
     {
-        // Proteksi Akses Khusus Administrator
-        if (session()->get('admin_role') !== 'admin') {
-            return redirect()->to(site_url('/dashboard'))->with('error', 'Akses ditolak: Menu manajemen staf perpustakaan hanya dapat dikelola oleh Administrator Utama.');
-        }
-
         $keyword = $this->request->getGet('q');
         $selectedRole = $this->request->getGet('role');
         $order = $this->request->getGet('order') ?? 'ASC';
@@ -75,15 +71,11 @@ class Staf extends BaseController
 
     public function store()
     {
-        if (session()->get('admin_role') !== 'admin') {
-            return redirect()->to(site_url('/dashboard'))->with('error', 'Akses ditolak.');
-        }
-
         $rules = [
             'nama'     => 'required|min_length[3]|max_length[100]',
             'username' => 'required|min_length[4]|max_length[50]|is_unique[admin.username]',
             'email'    => 'required|valid_email|is_unique[admin.email]',
-            'password' => 'required|min_length[6]',
+            'password' => 'required|min_length[8]',
             'role'     => 'required|in_list[admin,staf]',
         ];
 
@@ -93,24 +85,32 @@ class Staf extends BaseController
         }
 
         $rawPassword = $this->request->getPost('password');
+        $nama        = $this->request->getPost('nama');
+        $username    = strtolower(trim($this->request->getPost('username')));
+        $email       = strtolower(trim($this->request->getPost('email')));
+        $role        = $this->request->getPost('role');
+
         $this->adminModel->save([
-            'nama'           => $this->request->getPost('nama'),
-            'username'       => strtolower(trim($this->request->getPost('username'))),
-            'email'          => strtolower(trim($this->request->getPost('email'))),
-            'password'       => password_hash($rawPassword, PASSWORD_DEFAULT),
-            'role'           => $this->request->getPost('role'),
+            'nama'     => $nama,
+            'username' => $username,
+            'email'    => $email,
+            'password' => password_hash($rawPassword, PASSWORD_DEFAULT),
+            'role'     => $role,
         ]);
 
-        $roleText = $this->request->getPost('role') === 'admin' ? 'Administrator' : 'Staf Pustaka';
-        return redirect()->to(site_url('/staf'))->with('success', "Akun {$roleText} baru atas nama '{$this->request->getPost('nama')}' berhasil dibuat.");
+        $roleText = $role === 'admin' ? 'Administrator' : 'Staf Pustaka';
+
+        // Audit Log
+        AuditLogModel::record(
+            'TAMBAH_STAF',
+            "Menambahkan akun {$roleText} baru: '{$nama}' (@{$username}, {$email})."
+        );
+
+        return redirect()->to(site_url('/staf'))->with('success', "Akun {$roleText} baru atas nama '{$nama}' berhasil dibuat.");
     }
 
     public function detail($id)
     {
-        if (session()->get('admin_role') !== 'admin') {
-            return $this->response->setJSON(['status' => 'error', 'message' => 'Akses ditolak.'])->setStatusCode(403);
-        }
-
         $staf = $this->adminModel->find($id);
         if (!$staf) {
             return $this->response->setJSON(['status' => 'error', 'message' => 'Data staf tidak ditemukan.'])->setStatusCode(404);
@@ -132,10 +132,6 @@ class Staf extends BaseController
 
     public function update($id)
     {
-        if (session()->get('admin_role') !== 'admin') {
-            return redirect()->to(site_url('/dashboard'))->with('error', 'Akses ditolak.');
-        }
-
         $staf = $this->adminModel->find($id);
         if (!$staf) {
             return redirect()->to(site_url('/staf'))->with('error', 'Data akun staf tidak ditemukan.');
@@ -150,7 +146,7 @@ class Staf extends BaseController
 
         $password = $this->request->getPost('password');
         if (!empty($password)) {
-            $rules['password'] = 'min_length[6]';
+            $rules['password'] = 'min_length[8]';
         }
 
         if (!$this->validate($rules)) {
@@ -158,8 +154,10 @@ class Staf extends BaseController
             return redirect()->back()->withInput()->with('error', $errors);
         }
 
+        $newRole = $this->request->getPost('role');
+
         // Cegah admin tunggal mengubah perannya sendiri menjadi staf
-        if ($staf['role'] === 'admin' && $this->request->getPost('role') === 'staf') {
+        if ($staf['role'] === 'admin' && $newRole === 'staf') {
             $adminCount = $this->adminModel->where('role', 'admin')->countAllResults();
             if ($adminCount <= 1) {
                 return redirect()->back()->with('error', 'Tidak dapat mengubah role: Sistem membutuhkan minimal satu Administrator Utama.');
@@ -171,7 +169,7 @@ class Staf extends BaseController
             'nama'     => $this->request->getPost('nama'),
             'username' => strtolower(trim($this->request->getPost('username'))),
             'email'    => strtolower(trim($this->request->getPost('email'))),
-            'role'     => $this->request->getPost('role'),
+            'role'     => $newRole,
         ];
 
         if (!empty($password)) {
@@ -179,6 +177,19 @@ class Staf extends BaseController
         }
 
         $this->adminModel->save($dataUpdate);
+
+        // Audit Log: Catat perubahan role jika berbeda
+        if ($staf['role'] !== $newRole) {
+            AuditLogModel::record(
+                'UBAH_ROLE',
+                "Mengubah hak akses/role akun '{$staf['nama']}' (@{$staf['username']}) dari '{$staf['role']}' menjadi '{$newRole}'."
+            );
+        }
+
+        AuditLogModel::record(
+            'UBAH_STAF',
+            "Memperbarui data profil akun '{$dataUpdate['nama']}' (@{$dataUpdate['username']})."
+        );
 
         // Jika mengubah profil diri sendiri, perbarui session
         if ($id == session()->get('admin_id')) {
@@ -195,33 +206,31 @@ class Staf extends BaseController
 
     public function resetPassword($id)
     {
-        if (session()->get('admin_role') !== 'admin') {
-            return redirect()->to(site_url('/dashboard'))->with('error', 'Akses ditolak.');
-        }
-
         $staf = $this->adminModel->find($id);
         if (!$staf) {
             return redirect()->to(site_url('/staf'))->with('error', 'Data akun staf tidak ditemukan.');
         }
 
-        $newPassword = $this->request->getPost('new_password');
-        if (empty($newPassword) || strlen($newPassword) < 6) {
-            return redirect()->to(site_url('/staf'))->with('error', 'Password baru minimal 6 karakter.');
+        $newPassword = $this->request->getPost('new_password') ?? $this->request->getPost('password_baru');
+        if (empty($newPassword) || strlen($newPassword) < 8) {
+            return redirect()->to(site_url('/staf'))->with('error', 'Password baru minimal 8 karakter.');
         }
 
         $this->adminModel->update($id, [
             'password' => password_hash($newPassword, PASSWORD_DEFAULT)
         ]);
 
+        // Audit Log
+        AuditLogModel::record(
+            'RESET_PASSWORD',
+            "Mereset kata sandi akun petugas '{$staf['nama']}' (@{$staf['username']})."
+        );
+
         return redirect()->to(site_url('/staf'))->with('success', "Kata sandi untuk '{$staf['nama']}' berhasil direset.");
     }
 
     public function delete($id)
     {
-        if (session()->get('admin_role') !== 'admin') {
-            return redirect()->to(site_url('/dashboard'))->with('error', 'Akses ditolak.');
-        }
-
         // Cegah hapus diri sendiri
         if ($id == session()->get('admin_id')) {
             return redirect()->to(site_url('/staf'))->with('error', 'Anda tidak dapat menghapus akun Anda sendiri yang sedang aktif.');
@@ -251,6 +260,13 @@ class Staf extends BaseController
 
         try {
             $this->adminModel->delete($id);
+
+            // Audit Log
+            AuditLogModel::record(
+                'HAPUS_STAF',
+                "Menghapus akun petugas '{$staf['nama']}' (@{$staf['username']}, role: {$staf['role']})."
+            );
+
             return redirect()->to(site_url('/staf'))->with('success', "Akun '{$staf['nama']}' telah berhasil dihapus dari sistem.");
         } catch (\Exception $e) {
             return redirect()->to(site_url('/staf'))->with('error', 'Gagal menghapus staf karena akun masih terikat dengan data sistem.');

@@ -230,6 +230,13 @@ class Anggota extends BaseController
                 @unlink(FCPATH . $anggota['foto']);
             }
             $this->anggotaModel->delete($id);
+
+            // Audit Log
+            \App\Models\AuditLogModel::record(
+                'HAPUS_ANGGOTA',
+                "Menghapus data anggota: '{$anggota['nama']}' (No: {$anggota['nomor_anggota']}, Identitas: {$anggota['no_identitas']})."
+            );
+
             return redirect()->to(site_url('/anggota'))->with('success', 'Data anggota berhasil dihapus.');
         } catch (\Exception $e) {
             return redirect()->to(site_url('/anggota'))->with('error', 'Gagal menghapus anggota karena data masih terkait dengan modul sirkulasi lain.');

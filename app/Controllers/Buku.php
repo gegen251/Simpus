@@ -211,6 +211,13 @@ class Buku extends BaseController
 
         try {
             $this->bukuModel->delete($id);
+
+            // Audit Log
+            \App\Models\AuditLogModel::record(
+                'HAPUS_BUKU',
+                "Menghapus data buku: '{$buku['judul']}' (Kode: {$buku['kode_buku']})."
+            );
+
             return redirect()->to(site_url('/buku'))->with('success', 'Data buku berhasil dihapus.');
         } catch (\Exception $e) {
             return redirect()->to(site_url('/buku'))->with('error', 'Gagal menghapus buku karena data masih terkait dengan modul sirkulasi lain.');

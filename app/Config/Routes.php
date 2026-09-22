@@ -18,12 +18,14 @@ $routes->get('/', function () {
 $routes->get('/katalog', 'Katalog::index');
 $routes->get('/katalog/detail/(:num)', 'Katalog::detail/$1');
 
-// Fase 2: Layanan Mandiri Siswa (Self-Service Kiosk)
-$routes->get('/kiosk', 'Kiosk::index');
-$routes->post('/kiosk/cek-anggota', 'Kiosk::apiCekAnggota');
-$routes->post('/kiosk/cek-buku', 'Kiosk::apiCekBuku');
-$routes->post('/kiosk/pinjam', 'Kiosk::apiProsesPinjam');
-$routes->post('/kiosk/kembali', 'Kiosk::apiProsesKembali');
+// Layanan Mandiri Siswa (Self-Service Kiosk) - Diproteksi filter Kiosk Resmi
+$routes->group('kiosk', ['filter' => 'kiosk'], static function ($routes) {
+    $routes->get('/', 'Kiosk::index');
+    $routes->post('cek-anggota', 'Kiosk::apiCekAnggota');
+    $routes->post('cek-buku', 'Kiosk::apiCekBuku');
+    $routes->post('pinjam', 'Kiosk::apiProsesPinjam');
+    $routes->post('kembali', 'Kiosk::apiProsesKembali');
+});
 
 // Autentikasi
 $routes->get('/login', 'Auth::login');
@@ -86,15 +88,21 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
     $routes->get('/laporan/word/(:segment)', 'Laporan::exportWord/$1');
     $routes->get('/laporan/excel/(:segment)', 'Laporan::exportExcel/$1');
 
-    // Pengaturan Sistem Perpustakaan (Khusus Admin)
-    $routes->get('/pengaturan', 'Pengaturan::index');
-    $routes->post('/pengaturan/update', 'Pengaturan::update');
+    // Modul Khusus Administrator Utama (Diproteksi filter role:admin)
+    $routes->group('', ['filter' => 'role:admin'], static function ($routes) {
+        // Pengaturan Sistem Perpustakaan
+        $routes->get('/pengaturan', 'Pengaturan::index');
+        $routes->post('/pengaturan/update', 'Pengaturan::update');
 
-    // Manajemen Akun Staf Pustaka (Khusus Admin)
-    $routes->get('/staf', 'Staf::index');
-    $routes->get('/staf/detail/(:num)', 'Staf::detail/$1');
-    $routes->post('/staf/store', 'Staf::store');
-    $routes->post('/staf/update/(:num)', 'Staf::update/$1');
-    $routes->post('/staf/reset-password/(:num)', 'Staf::resetPassword/$1');
-    $routes->post('/staf/delete/(:num)', 'Staf::delete/$1');
+        // Manajemen Akun Staf Pustaka
+        $routes->get('/staf', 'Staf::index');
+        $routes->get('/staf/detail/(:num)', 'Staf::detail/$1');
+        $routes->post('/staf/store', 'Staf::store');
+        $routes->post('/staf/update/(:num)', 'Staf::update/$1');
+        $routes->post('/staf/reset-password/(:num)', 'Staf::resetPassword/$1');
+        $routes->post('/staf/delete/(:num)', 'Staf::delete/$1');
+
+        // Audit Log & Jejak Keamanan Sistem
+        $routes->get('/audit-log', 'AuditLog::index');
+    });
 });

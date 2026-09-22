@@ -86,7 +86,17 @@ class Kategori extends BaseController
             return redirect()->to(site_url('/kategori'))->with('error', "Kategori tidak dapat dihapus karena masih memuat $bukuCount koleksi buku.");
         }
 
+        $kategori = $this->kategoriModel->find($id);
+        $namaKategori = $kategori['nama_kategori'] ?? "ID #$id";
+
         $this->kategoriModel->delete($id);
+
+        // Audit Log
+        \App\Models\AuditLogModel::record(
+            'HAPUS_KATEGORI',
+            "Menghapus kategori buku: '{$namaKategori}'."
+        );
+
         return redirect()->to(site_url('/kategori'))->with('success', 'Kategori berhasil dihapus.');
     }
 }

@@ -182,6 +182,11 @@
                             <i data-lucide="settings" class="w-4 h-4 <?= ($active_menu ?? '') === 'pengaturan' ? 'text-amber-400' : 'text-slate-400' ?>"></i>
                             <span>Aturan & Profil SD</span>
                         </a>
+
+                        <a href="<?= site_url('/audit-log') ?>" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium transition-colors <?= ($active_menu ?? '') === 'audit_log' ? 'bg-slate-800 text-white font-semibold border-l-2 border-amber-400' : 'text-slate-300 hover:bg-slate-800/60 hover:text-white' ?>">
+                            <i data-lucide="shield-alert" class="w-4 h-4 <?= ($active_menu ?? '') === 'audit_log' ? 'text-amber-400' : 'text-slate-400' ?>"></i>
+                            <span>Audit Log Keamanan</span>
+                        </a>
                     <?php endif; ?>
 
                     <div class="pt-3 px-3 pb-1 text-[10px] font-bold uppercase tracking-wider text-slate-400">Portal Publik</div>

@@ -392,9 +392,9 @@
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
                         <i data-lucide="lock" class="w-4 h-4"></i>
                     </div>
-                    <input type="password" id="input_reset_password" name="password_baru" required minlength="6"
+                    <input type="password" id="input_reset_password" name="new_password" required minlength="8"
                            class="w-full pl-9 pr-9 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-navy-900 dark:focus:ring-indigo-500 focus:border-navy-900 focus:outline-none"
-                           placeholder="Minimal 6 karakter...">
+                           placeholder="Minimal 8 karakter...">
                     <button type="button" onclick="toggleInputPassword('input_reset_password', this)" 
                             class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
                         <i data-lucide="eye" class="w-4 h-4"></i>
@@ -559,9 +559,9 @@
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
                             <i data-lucide="lock" class="w-4 h-4"></i>
                         </div>
-                        <input type="password" id="tambah_password" name="password" required minlength="6" 
+                        <input type="password" id="tambah_password" name="password" required minlength="8" 
                                class="w-full pl-9 pr-9 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-navy-900 focus:border-navy-900 focus:outline-none placeholder:text-slate-400" 
-                               placeholder="Minimal 6 karakter">
+                               placeholder="Minimal 8 karakter">
                         <button type="button" onclick="toggleInputPassword('tambah_password', this)" 
                                 class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
                             <i data-lucide="eye" class="w-4 h-4"></i>
@@ -737,9 +737,9 @@
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
                             <i data-lucide="lock" class="w-4 h-4"></i>
                         </div>
-                        <input type="password" id="edit_password" name="password" minlength="6" 
+                        <input type="password" id="edit_password" name="password" minlength="8" 
                                class="w-full pl-9 pr-9 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-navy-900 focus:border-navy-900 focus:outline-none placeholder:text-slate-400" 
-                               placeholder="Isi sandi baru...">
+                               placeholder="Isi sandi baru (min. 8 karakter)...">
                         <button type="button" onclick="toggleInputPassword('edit_password', this)" 
                                 class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
                             <i data-lucide="eye" class="w-4 h-4"></i>
