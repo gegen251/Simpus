@@ -81,8 +81,12 @@ class Buku extends BaseController
             'kategori_id'      => 'required|numeric',
             'tahun_terbit'     => 'permit_empty|exact_length[4]|numeric',
             'jumlah_eksemplar' => 'required|numeric|greater_than[0]',
-            'cover_file'       => 'permit_empty|is_image[cover_file]|mime_in[cover_file,image/jpg,image/jpeg,image/png,image/webp]|max_size[cover_file,2048]',
         ];
+
+        $coverFile = $this->request->getFile('cover_file');
+        if ($coverFile && $coverFile->getError() !== UPLOAD_ERR_NO_FILE) {
+            $rules['cover_file'] = 'is_image[cover_file]|mime_in[cover_file,image/jpg,image/jpeg,image/png,image/webp]|max_size[cover_file,2048]|ext_in[cover_file,jpg,jpeg,png,webp]';
+        }
 
         if (!$this->validate($rules)) {
             $err = $this->validator->getErrors();
@@ -104,6 +108,11 @@ class Buku extends BaseController
         $coverPath = null;
         $coverFile = $this->request->getFile('cover_file');
         if ($coverFile && $coverFile->isValid() && !$coverFile->hasMoved()) {
+            $ext = strtolower($coverFile->getClientExtension());
+            $allowedExts = ['jpg', 'jpeg', 'png', 'webp'];
+            if (!in_array($ext, $allowedExts)) {
+                return redirect()->back()->withInput()->with('error', 'Format file cover tidak didukung. Gunakan JPG, PNG, atau WEBP.');
+            }
             $newName = $coverFile->getRandomName();
             $coverFile->move(FCPATH . 'uploads/covers', $newName);
             $coverPath = 'uploads/covers/' . $newName;
@@ -142,8 +151,12 @@ class Buku extends BaseController
             'kategori_id'      => 'required|numeric',
             'tahun_terbit'     => 'permit_empty|exact_length[4]|numeric',
             'jumlah_eksemplar' => 'required|numeric|greater_than[0]',
-            'cover_file'       => 'permit_empty|is_image[cover_file]|mime_in[cover_file,image/jpg,image/jpeg,image/png,image/webp]|max_size[cover_file,2048]',
         ];
+
+        $coverFile = $this->request->getFile('cover_file');
+        if ($coverFile && $coverFile->getError() !== UPLOAD_ERR_NO_FILE) {
+            $rules['cover_file'] = 'is_image[cover_file]|mime_in[cover_file,image/jpg,image/jpeg,image/png,image/webp]|max_size[cover_file,2048]|ext_in[cover_file,jpg,jpeg,png,webp]';
+        }
 
         if (!$this->validate($rules)) {
             $err = $this->validator->getErrors();
@@ -164,6 +177,11 @@ class Buku extends BaseController
         $coverPath = $buku['cover'];
         $coverFile = $this->request->getFile('cover_file');
         if ($coverFile && $coverFile->isValid() && !$coverFile->hasMoved()) {
+            $ext = strtolower($coverFile->getClientExtension());
+            $allowedExts = ['jpg', 'jpeg', 'png', 'webp'];
+            if (!in_array($ext, $allowedExts)) {
+                return redirect()->back()->withInput()->with('error', 'Format file cover tidak didukung. Gunakan JPG, PNG, atau WEBP.');
+            }
             $newName = $coverFile->getRandomName();
             $coverFile->move(FCPATH . 'uploads/covers', $newName);
             $coverPath = 'uploads/covers/' . $newName;
