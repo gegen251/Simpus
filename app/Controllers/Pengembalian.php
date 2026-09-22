@@ -116,19 +116,24 @@ class Pengembalian extends BaseController
             'status' => 'dikembalikan',
         ]);
 
-        // 3. FR-19: Kembalikan stok buku (stok_tersedia + 1) secara aman
-        $buku = $this->bukuModel->find($peminjaman['buku_id']);
-        if ($buku) {
-            $this->bukuModel->update($buku['id'], [
-                'stok_tersedia' => min((int)$buku['jumlah_eksemplar'], (int)$buku['stok_tersedia'] + 1),
-            ]);
-        }
+        // 3. FR-19: Kembalikan stok buku (+1) secara atomik tanpa melebihi jumlah_eksemplar
+        $db->table('buku')
+           ->where('id', $peminjaman['buku_id'])
+           ->where('stok_tersedia < jumlah_eksemplar', null, false)
+           ->set('stok_tersedia', 'stok_tersedia + 1', false)
+           ->update();
 
         $db->transComplete();
 
         if ($db->transStatus() === false) {
-            return redirect()->to(site_url('/pengembalian'))->with('error', 'Gagal memproses pengembalian buku.');
+            return redirect()->to(site_url('/pengembalian'))->with('error', 'Gagal memproses pengembalian buku di database.');
         }
+
+        \App\Models\AuditLogModel::record(
+            'KEMBALI_BUKU',
+            "Pengembalian buku transaksi '{$peminjaman['kode_transaksi']}' berhasil diproses." . ($denda > 0 ? " Denda keterlambatan: Rp " . number_format($denda, 0, ',', '.') . " [Status: " . ucfirst($statusDenda) . "]." : ""),
+            $adminId
+        );
 
         $msg = "Pengembalian transaksi '{$peminjaman['kode_transaksi']}' berhasil diproses.";
         if ($denda > 0) {
@@ -149,12 +154,28 @@ class Pengembalian extends BaseController
             return redirect()->to(site_url('/pengembalian/riwayat'))->with('info', 'Status denda transaksi ini sudah lunas atau tidak ada denda.');
         }
 
+        $db = \Config\Database::connect();
+        $db->transStart();
+
         $catatan = trim(($pengembalian['catatan'] ?? '') . ' | Denda dilunasi ke pustakawan pada ' . date('d/m/Y H:i'));
         $this->pengembalianModel->update($id, [
             'status_denda' => 'lunas',
             'catatan'      => $catatan,
             'updated_at'   => date('Y-m-d H:i:s'),
         ]);
+
+        $db->transComplete();
+
+        if ($db->transStatus() === false) {
+            return redirect()->to(site_url('/pengembalian/riwayat'))->with('error', 'Gagal memperbarui status pelunasan denda di database.');
+        }
+
+        $adminId = session()->get('admin_id') ?: 1;
+        \App\Models\AuditLogModel::record(
+            'LUNASI_DENDA',
+            "Pelunasan denda pengembalian ID {$id} sebesar Rp " . number_format($pengembalian['denda'], 0, ',', '.') . " berhasil dikonfirmasi.",
+            $adminId
+        );
 
         return redirect()->to(site_url('/pengembalian/riwayat'))->with('success', 'Pembayaran denda sebesar Rp ' . number_format($pengembalian['denda'], 0, ',', '.') . ' berhasil dikonfirmasi lunas.');
     }

@@ -205,18 +205,35 @@ class Peminjaman extends BaseController
             return redirect()->to(site_url('/peminjaman'))->with('error', 'Peminjaman yang sudah melewati tanggal jatuh tempo tidak dapat diperpanjang. Harap lakukan pengembalian dan selesaikan denda terlebih dahulu.');
         }
 
-        $maxPerpanjang = 2;
+        // Validasi Aturan Bisnis: Tidak bisa perpanjang jika anggota memiliki tanggungan denda belum lunas
+        $pengembalianModel = new \App\Models\PengembalianModel();
+        $unpaidFines = $pengembalianModel
+            ->join('peminjaman', 'peminjaman.id = pengembalian.peminjaman_id')
+            ->where('peminjaman.anggota_id', $peminjaman['anggota_id'])
+            ->where('pengembalian.status_denda', 'belum_lunas')
+            ->countAllResults();
+
+        if ($unpaidFines > 0) {
+            return redirect()->to(site_url('/peminjaman'))->with('error', 'Perpanjangan ditolak: Anggota masih memiliki tanggungan denda keterlambatan yang belum lunas. Harap selesaikan denda terlebih dahulu.');
+        }
+
+        // Validasi Aturan Bisnis: Batas maksimal perpanjangan
+        $maxPerpanjang = (int)($this->pengaturanModel->getKunci('max_perpanjangan_buku', 2));
         $currentPerpanjang = (int)($peminjaman['jumlah_perpanjangan'] ?? 0);
         if ($currentPerpanjang >= $maxPerpanjang) {
             return redirect()->to(site_url('/peminjaman'))->with('error', "Peminjaman telah mencapai batas maksimal perpanjangan ({$maxPerpanjang} kali). Buku harus dikembalikan.");
         }
 
-        $durasiDefault = (int)($this->pengaturanModel->getKunci('durasi_pinjam_default', 7));
+        $durasiDefault = (int)($this->pengaturanModel->getKunci('durasi_pinjam_default', 5));
         $oldTempo = $peminjaman['tanggal_jatuh_tempo'];
         $newTempo = date('Y-m-d', strtotime($oldTempo . " +{$durasiDefault} days"));
 
         $catatanTambahan = "Diperpanjang ke-" . ($currentPerpanjang + 1) . " s/d " . date('d/m/Y', strtotime($newTempo));
         $catatanBaru = !empty($peminjaman['catatan']) ? $peminjaman['catatan'] . " | " . $catatanTambahan : $catatanTambahan;
+
+        // Pola Transaksi Konsisten
+        $db = \Config\Database::connect();
+        $db->transStart();
 
         $this->peminjamanModel->update($id, [
             'tanggal_jatuh_tempo'           => $newTempo,
@@ -224,6 +241,19 @@ class Peminjaman extends BaseController
             'tanggal_perpanjangan_terakhir' => date('Y-m-d H:i:s'),
             'catatan'                      => $catatanBaru
         ]);
+
+        $db->transComplete();
+
+        if ($db->transStatus() === false) {
+            return redirect()->to(site_url('/peminjaman'))->with('error', 'Gagal memperpanjang transaksi peminjaman di database.');
+        }
+
+        $adminId = session()->get('admin_id') ?: 1;
+        \App\Models\AuditLogModel::record(
+            'PERPANJANG_PINJAM',
+            "Perpanjangan peminjaman transaksi '{$peminjaman['kode_transaksi']}' (ke-" . ($currentPerpanjang + 1) . ") berhasil dicatat sampai tanggal " . date('d/m/Y', strtotime($newTempo)) . ".",
+            $adminId
+        );
 
         return redirect()->to(site_url('/peminjaman'))->with('success', "Peminjaman transaksi '{$peminjaman['kode_transaksi']}' berhasil diperpanjang (+{$durasiDefault} hari) sampai tanggal " . date('d F Y', strtotime($newTempo)) . ".");
     }

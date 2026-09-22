@@ -386,9 +386,10 @@ class Kiosk extends BaseController
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
 
-        // Tambah kembali stok buku secara atomik
+        // Tambah kembali stok buku secara atomik tanpa melebihi jumlah eksemplar
         $db->table('buku')
            ->where('id', $pinjaman['real_buku_id'])
+           ->where('stok_tersedia < jumlah_eksemplar', null, false)
            ->set('stok_tersedia', 'stok_tersedia + 1', false)
            ->update();
 
@@ -397,6 +398,12 @@ class Kiosk extends BaseController
         if ($db->transStatus() === false) {
             return $this->response->setJSON(['success' => false, 'message' => 'Gagal memproses transaksi pengembalian di database.']);
         }
+
+        \App\Models\AuditLogModel::record(
+            'KEMBALI_KIOSK',
+            "Pengembalian mandiri buku '{$pinjaman['judul']}' ({$pinjaman['kode_transaksi']}) oleh siswa '{$pinjaman['nama_anggota']}' berhasil diproses via Kiosk." . ($denda > 0 ? " Denda: Rp " . number_format($denda, 0, ',', '.') : ""),
+            $adminId
+        );
 
         return $this->response->setJSON([
             'success'        => true,
