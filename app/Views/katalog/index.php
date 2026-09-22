@@ -20,37 +20,45 @@
 <body class="bg-[#FBF9F5] dark:bg-[#0C1222] text-[#2C3E50] dark:text-slate-100 font-sans antialiased min-h-screen flex flex-col selection:bg-[#1B2A4A] selection:text-white transition-colors duration-200">
 
     <!-- Top Navigation Bar -->
-    <header class="sticky top-0 z-30 bg-white/95 dark:bg-[#131B2E]/95 backdrop-blur-md border-b border-[#E5DFD3] dark:border-slate-800 shadow-xs transition-colors py-3.5 sm:py-4">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between min-h-[52px]">
+    <header class="sticky top-0 z-30 bg-white/95 dark:bg-[#131B2E]/95 backdrop-blur-md border-b border-[#E5DFD3]/80 dark:border-slate-800 shadow-2xs transition-colors">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
             <!-- Brand with Official Logo -->
-            <a href="<?= site_url('/katalog') ?>" class="flex items-center gap-3.5 group">
-                <div class="w-12 h-12 rounded-xl bg-[#F4EFE6] dark:bg-slate-800 p-2 flex items-center justify-center border border-[#E5DFD3] dark:border-slate-700 shadow-xs shrink-0 transition-transform group-hover:scale-[1.02]">
+            <a href="<?= site_url('/katalog') ?>" class="flex items-center gap-3.5 group focus:outline-none">
+                <div class="w-12 h-12 rounded-xl bg-white dark:bg-slate-800 p-2 flex items-center justify-center border border-[#E5DFD3] dark:border-slate-700 shadow-2xs shrink-0 transition-transform group-hover:scale-[1.02]">
                     <img src="<?= base_url('images/logo.png') ?>" alt="SIMPUS Logo" class="w-full h-full object-contain">
                 </div>
-                <div class="overflow-hidden">
+                <div class="flex flex-col justify-center">
                     <div class="flex items-center gap-2">
-                        <span class="font-serif font-bold text-xl text-[#1B2A4A] dark:text-slate-100 leading-none">SIMPUS</span>
-                        <span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-[#B8791F]/15 text-[#B8791F] dark:text-amber-300 border border-[#B8791F]/30">SDN 12</span>
-                        <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-[#2B4C7E]/10 dark:bg-sky-950/80 text-[#2B4C7E] dark:text-sky-300 border border-[#2B4C7E]/20">OPAC</span>
+                        <span class="font-serif font-bold text-xl text-[#1B2A4A] dark:text-slate-100 leading-none tracking-tight">SIMPUS</span>
+                        <span class="px-2 py-0.5 rounded-md text-[10px] font-semibold tracking-wide bg-[#B8791F]/10 text-[#B8791F] dark:text-amber-300 border border-[#B8791F]/25 leading-none">SDN 12</span>
+                        <span class="px-2 py-0.5 rounded-md text-[10px] font-semibold tracking-wide bg-[#1B2A4A]/10 text-[#1B2A4A] dark:text-sky-300 border border-[#1B2A4A]/20 leading-none">OPAC</span>
                     </div>
-                    <p class="text-xs text-[#5C6470] dark:text-slate-400 mt-1 truncate flex items-center gap-1.5 font-medium">
-                        <span class="inline-block w-1.5 h-1.5 rounded-full bg-[#2F6E4E]"></span>
-                        <?= esc($config['nama_perpustakaan'] ?? 'SD Negeri 12 Sumbawa') ?>
-                    </p>
+                    <div class="flex items-center gap-1.5 mt-1.5">
+                        <span class="relative flex h-2 w-2 shrink-0">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                        </span>
+                        <span class="text-xs text-[#5C6470] dark:text-slate-400 font-medium leading-none truncate max-w-[200px] sm:max-w-none">
+                            <?= esc($config['nama_perpustakaan'] ?? 'SD Negeri 12 Sumbawa') ?>
+                        </span>
+                    </div>
                 </div>
             </a>
 
-            <!-- Right Actions (Theme Toggle, Kiosk Link, & Login/Dashboard Button) -->
-            <div class="flex items-center gap-2.5 sm:gap-3">
+            <!-- Right Actions (Theme Toggle, Divider, Kiosk Link, & Login/Dashboard Button) -->
+            <div class="flex items-center gap-2 sm:gap-2.5">
                 <!-- Theme Toggle Button -->
-                <button id="themeToggle" class="w-10 h-10 rounded-xl bg-[#F4EFE6] hover:bg-[#EAE4D6] dark:bg-slate-800 dark:hover:bg-slate-700 text-[#5C6470] dark:text-slate-300 transition-colors border border-[#E5DFD3] dark:border-slate-700 flex items-center justify-center shadow-2xs" title="Ubah Tema Tampilan">
+                <button id="themeToggle" class="h-11 w-11 rounded-xl bg-white hover:bg-[#F4EFE6] dark:bg-slate-800 dark:hover:bg-slate-700 text-[#5C6470] dark:text-slate-300 transition-all border border-[#E5DFD3] dark:border-slate-700 flex items-center justify-center shadow-2xs shrink-0 focus:outline-none focus:ring-2 focus:ring-[#1B2A4A]/20" title="Ubah Tema Tampilan">
                     <i data-lucide="moon" class="w-4 h-4 hidden dark:block text-amber-400"></i>
                     <i data-lucide="sun" class="w-4 h-4 block dark:hidden text-[#B8791F]"></i>
                 </button>
 
+                <!-- Subtle Vertical Divider -->
+                <div class="h-6 w-px bg-[#E5DFD3] dark:bg-slate-700 hidden sm:block"></div>
+
                 <!-- Layanan Mandiri Quick Link -->
                 <a href="<?= site_url('/kiosk') ?>" 
-                   class="hidden sm:inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold text-[#1B2A4A] dark:text-slate-200 bg-[#F4EFE6] hover:bg-[#EAE4D6] dark:bg-slate-800 dark:hover:bg-slate-700 border border-[#E5DFD3] dark:border-slate-700 shadow-2xs transition-colors">
+                   class="hidden sm:inline-flex items-center gap-2 h-11 px-4 rounded-xl text-xs font-semibold text-[#1B2A4A] dark:text-slate-200 bg-white hover:bg-[#F4EFE6] dark:bg-slate-800 dark:hover:bg-slate-700 border border-[#E5DFD3] dark:border-slate-700 shadow-2xs hover:shadow-xs transition-all shrink-0">
                     <i data-lucide="scan-line" class="w-4 h-4 text-[#C1613A]"></i>
                     <span>Layanan Mandiri</span>
                 </a>
@@ -58,13 +66,13 @@
                 <!-- Login / Dashboard Petugas Button -->
                 <?php if (session()->get('logged_in')): ?>
                     <a href="<?= site_url('/dashboard') ?>" 
-                       class="inline-flex items-center gap-2 px-4.5 py-2.5 rounded-xl text-xs font-bold text-white bg-[#1B2A4A] hover:bg-[#24375D] shadow-xs transition-colors border border-[#1B2A4A]">
+                       class="inline-flex items-center gap-2 h-11 px-5 rounded-xl text-xs font-semibold text-white bg-[#1B2A4A] hover:bg-[#24375D] shadow-xs hover:shadow-md transition-all border border-[#1B2A4A] shrink-0">
                         <i data-lucide="layout-dashboard" class="w-4 h-4 text-amber-400"></i>
                         <span>Panel Staf</span>
                     </a>
                 <?php else: ?>
                     <a href="<?= site_url('/login') ?>" 
-                       class="inline-flex items-center gap-2 px-4.5 py-2.5 rounded-xl text-xs font-bold text-white bg-[#1B2A4A] hover:bg-[#24375D] shadow-xs transition-colors border border-[#1B2A4A]">
+                       class="inline-flex items-center gap-2 h-11 px-5 rounded-xl text-xs font-semibold text-white bg-[#1B2A4A] hover:bg-[#24375D] shadow-xs hover:shadow-md transition-all border border-[#1B2A4A] shrink-0">
                         <i data-lucide="lock" class="w-4 h-4 text-amber-400"></i>
                         <span>Masuk Staf</span>
                     </a>
