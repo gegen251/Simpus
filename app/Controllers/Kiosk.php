@@ -273,19 +273,34 @@ class Kiosk extends BaseController
         $db = \Config\Database::connect();
         $db->transStart();
 
-        $this->peminjamanModel->insert($insertData);
-        // Kurangi stok buku secara atomik
+        // Kurangi stok buku secara atomik dengan proteksi race condition
         $db->table('buku')
            ->where('id', $bukuId)
            ->where('stok_tersedia >', 0)
            ->set('stok_tersedia', 'stok_tersedia - 1', false)
            ->update();
 
+        if ($db->affectedRows() === 0) {
+            $db->transRollback();
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => 'Peminjaman ditolak: Stok buku ini baru saja habis terpinjam.'
+            ]);
+        }
+
+        $this->peminjamanModel->insert($insertData);
+
         $db->transComplete();
 
         if ($db->transStatus() === false) {
             return $this->response->setJSON(['success' => false, 'message' => 'Gagal memproses transaksi peminjaman di database.']);
         }
+
+        \App\Models\AuditLogModel::record(
+            'PINJAM_KIOSK',
+            "Peminjaman mandiri buku '{$buku['judul']}' ({$kodeTrx}) oleh siswa '{$anggota['nama']}' berhasil dicatat via Kiosk.",
+            $adminId
+        );
 
         return $this->response->setJSON([
             'success'             => true,

@@ -126,12 +126,25 @@ class Peminjaman extends BaseController
             return redirect()->back()->withInput()->with('error', "Peminjaman ditolak: Stok buku '{$buku['judul']}' sedang habis (0 tersedia).");
         }
 
-        // 3. Simpan Transaksi Peminjaman
+        // 3. Simpan Transaksi Peminjaman secara Atomik
         $kodeTransaksi = $this->peminjamanModel->generateKodeTransaksi();
         $adminId = session()->get('admin_id') ?: 1;
 
         $db = \Config\Database::connect();
         $db->transStart();
+
+        // FR-14: Kurangi stok buku secara atomik hanya jika stok_tersedia > 0
+        $db->table('buku')
+           ->where('id', $bukuId)
+           ->where('stok_tersedia >', 0)
+           ->set('stok_tersedia', 'stok_tersedia - 1', false)
+           ->update();
+
+        // Validasi race condition: Jika 0 baris terupdate, berarti stok baru saja habis
+        if ($db->affectedRows() === 0) {
+            $db->transRollback();
+            return redirect()->back()->withInput()->with('error', "Peminjaman ditolak: Stok buku '{$buku['judul']}' baru saja habis terpinjam.");
+        }
 
         $this->peminjamanModel->insert([
             'kode_transaksi'      => $kodeTransaksi,
@@ -144,16 +157,18 @@ class Peminjaman extends BaseController
             'catatan'             => $this->request->getPost('catatan'),
         ]);
 
-        // FR-14: Kurangi stok buku
-        $this->bukuModel->update($bukuId, [
-            'stok_tersedia' => $buku['stok_tersedia'] - 1,
-        ]);
-
         $db->transComplete();
 
         if ($db->transStatus() === false) {
             return redirect()->back()->withInput()->with('error', 'Terjadi kesalahan sistem saat menyimpan transaksi peminjaman.');
         }
+
+        // Catat ke audit log keamanan & data
+        \App\Models\AuditLogModel::record(
+            'PINJAM_BUKU',
+            "Peminjaman buku '{$buku['judul']}' ({$kodeTransaksi}) oleh anggota '{$anggota['nama']}' berhasil dicatat.",
+            $adminId
+        );
 
         return redirect()->to(site_url('/peminjaman'))->with('success', "Peminjaman buku '{$buku['judul']}' untuk '{$anggota['nama']}' berhasil dicatat.");
     }
