@@ -109,8 +109,12 @@ class Anggota extends BaseController
             'kontak'       => 'required|min_length[6]|max_length[30]',
             'tipe_anggota' => 'permit_empty|in_list[siswa,guru,karyawan]',
             'kelas'        => 'permit_empty|max_length[50]',
-            'foto_file'    => 'permit_empty|is_image[foto_file]|mime_in[foto_file,image/jpg,image/jpeg,image/png,image/webp]|max_size[foto_file,2048]',
         ];
+
+        $fotoFile = $this->request->getFile('foto_file');
+        if ($fotoFile && $fotoFile->getError() !== UPLOAD_ERR_NO_FILE) {
+            $rules['foto_file'] = 'is_image[foto_file]|mime_in[foto_file,image/jpg,image/jpeg,image/png,image/webp]|max_size[foto_file,2048]|ext_in[foto_file,jpg,jpeg,png,webp]';
+        }
 
         if (!$this->validate($rules)) {
             $err = $this->validator->getErrors();
@@ -123,8 +127,12 @@ class Anggota extends BaseController
         }
 
         $fotoPath = null;
-        $fotoFile = $this->request->getFile('foto_file');
         if ($fotoFile && $fotoFile->isValid() && !$fotoFile->hasMoved()) {
+            $ext = strtolower($fotoFile->getClientExtension());
+            $allowedExts = ['jpg', 'jpeg', 'png', 'webp'];
+            if (!in_array($ext, $allowedExts)) {
+                return redirect()->back()->withInput()->with('error', 'Format foto tidak didukung. Gunakan JPG, PNG, atau WEBP.');
+            }
             $newName = $fotoFile->getRandomName();
             $fotoFile->move(FCPATH . 'uploads/anggota', $newName);
             $fotoPath = 'uploads/anggota/' . $newName;
@@ -163,8 +171,12 @@ class Anggota extends BaseController
             'kontak'       => 'required|min_length[6]|max_length[30]',
             'tipe_anggota' => 'permit_empty|in_list[siswa,guru,karyawan]',
             'kelas'        => 'permit_empty|max_length[50]',
-            'foto_file'    => 'permit_empty|is_image[foto_file]|mime_in[foto_file,image/jpg,image/jpeg,image/png,image/webp]|max_size[foto_file,2048]',
         ];
+
+        $fotoFile = $this->request->getFile('foto_file');
+        if ($fotoFile && $fotoFile->getError() !== UPLOAD_ERR_NO_FILE) {
+            $rules['foto_file'] = 'is_image[foto_file]|mime_in[foto_file,image/jpg,image/jpeg,image/png,image/webp]|max_size[foto_file,2048]|ext_in[foto_file,jpg,jpeg,png,webp]';
+        }
 
         if (!$this->validate($rules)) {
             $err = $this->validator->getErrors();
@@ -172,8 +184,12 @@ class Anggota extends BaseController
         }
 
         $fotoPath = $anggota['foto'];
-        $fotoFile = $this->request->getFile('foto_file');
         if ($fotoFile && $fotoFile->isValid() && !$fotoFile->hasMoved()) {
+            $ext = strtolower($fotoFile->getClientExtension());
+            $allowedExts = ['jpg', 'jpeg', 'png', 'webp'];
+            if (!in_array($ext, $allowedExts)) {
+                return redirect()->back()->withInput()->with('error', 'Format foto tidak didukung. Gunakan JPG, PNG, atau WEBP.');
+            }
             if (!empty($anggota['foto']) && file_exists(FCPATH . $anggota['foto'])) {
                 @unlink(FCPATH . $anggota['foto']);
             }

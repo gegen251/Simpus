@@ -128,6 +128,11 @@ class Peminjaman extends BaseController
 
         // 3. Simpan Transaksi Peminjaman secara Atomik
         $kodeTransaksi = $this->peminjamanModel->generateKodeTransaksi();
+        while ($this->peminjamanModel->where('kode_transaksi', $kodeTransaksi)->first()) {
+            $parts = explode('-', $kodeTransaksi);
+            $seq = intval(end($parts)) + 1;
+            $kodeTransaksi = 'PJ-' . date('Ymd') . '-' . str_pad($seq, 4, '0', STR_PAD_LEFT);
+        }
         $adminId = session()->get('admin_id') ?: 1;
 
         $db = \Config\Database::connect();

@@ -41,7 +41,7 @@ class Kiosk extends BaseController
     // API Cek Anggota via Barcode Kartu atau NISN
     public function apiCekAnggota()
     {
-        $identifier = trim($this->request->getVar('identifier') ?? '');
+        $identifier = trim($this->request->getVar('identifier') ?? $this->request->getVar('nomor_anggota') ?? '');
         if (empty($identifier)) {
             return $this->response->setJSON(['success' => false, 'message' => 'Silakan scan atau masukkan nomor kartu anggota / NISN.']);
         }
@@ -252,6 +252,10 @@ class Kiosk extends BaseController
             $urutan = (int)$m[1] + 1;
         }
         $kodeTrx = sprintf('TRX-%s-%03d', $tglHariIni, $urutan);
+        while ($this->peminjamanModel->where('kode_transaksi', $kodeTrx)->first()) {
+            $urutan++;
+            $kodeTrx = sprintf('TRX-%s-%03d', $tglHariIni, $urutan);
+        }
 
         $tglPinjam = date('Y-m-d');
         $tglJatuhTempo = date('Y-m-d', strtotime("+{$durasi} days"));
@@ -321,7 +325,7 @@ class Kiosk extends BaseController
     // API Eksekusi Pengembalian Mandiri
     public function apiProsesKembali()
     {
-        $kode = trim($this->request->getVar('kode') ?? '');
+        $kode = trim($this->request->getVar('kode') ?? $this->request->getVar('kode_buku') ?? '');
         if (empty($kode)) {
             return $this->response->setJSON(['success' => false, 'message' => 'Silakan scan atau masukkan kode buku / nomor transaksi.']);
         }
