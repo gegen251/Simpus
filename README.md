@@ -95,6 +95,12 @@ Buka browser Anda:
 - **Terminal Kios Siswa**: [http://localhost:8080/kiosk](http://localhost:8080/kiosk)
 - **Portal Login Staf**: [http://localhost:8080/login](http://localhost:8080/login)
 
+### 5. Membuka Review Publik Sementara
+
+Klik dua kali `MULAI_REVIEW_PUBLIK.bat`. Launcher akan menyalakan MariaDB, server SIMPUS, dan Cloudflare Quick Tunnel secara otomatis. Tautan HTTPS publik akan dibuka di browser serta disalin ke clipboard.
+
+> Quick Tunnel hanya untuk demo/UAT. Laptop dan koneksi internet harus tetap aktif. Tautan berubah setelah tunnel dihentikan atau laptop dinyalakan ulang.
+
 ---
 
 ## 🧪 Pengujian Otomatis (Automated Testing)
