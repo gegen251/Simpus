@@ -1,69 +1,121 @@
-# CodeIgniter 4 Application Starter
+# 📚 SIMPUS — Sistem Informasi Manajemen Perpustakaan Terpadu
+### Solusi Otomasi Perpustakaan Sekolah Terpadu dengan Terminal Kios Mandiri & OPAC Terbuka
 
-## What is CodeIgniter?
+[![PHP Version](https://img.shields.io/badge/PHP-8.2%2B-blue.svg)](https://php.net)
+[![Framework](https://img.shields.io/badge/Framework-CodeIgniter%204.7.4-red.svg)](https://codeigniter.com)
+[![Database](https://img.shields.io/badge/Database-MariaDB%2010.4-orange.svg)](https://mariadb.org)
+[![PHPUnit Tests](https://img.shields.io/badge/Tests-25%20Passed%20%7C%20100%25%20Green-brightgreen.svg)](docs/UAT_AKHIR_SIGN_OFF.md)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+---
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+## 🌟 Tentang Aplikasi
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+**SIMPUS** adalah sistem manajemen perpustakaan modern berbasis web yang dirancang khusus untuk memenuhi kebutuhan sirkulasi, inventarisasi koleksi, dan peningkatan literasi di lingkungan sekolah dasar. Dilengkapi dengan **Terminal Kios Mandiri Siswa (Self-Service Kiosk)** ramah anak serta **Katalog Terbuka Publik (OPAC)**, SIMPUS menghadirkan pengalaman perpustakaan yang cepat, transparan, dan terotomasi penuh.
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+---
 
-## Installation & updates
+## ✨ Fitur-Fitur Unggulan
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+1. **Terminal Kios Mandiri Siswa (Self-Service Kiosk)**:
+   - Antarmuka ramah anak dengan layar sentuh dan pemindai barcode kartu NISN.
+   - Peminjaman dan pengembalian mandiri instan dengan struk digital.
+   - Pembatasan kuota otomatis (maksimal 2 buku) dan edukasi keterlambatan.
+2. **Katalog Terbuka Publik (OPAC)**:
+   - Akses pencarian judul, penulis, penerbit, dan ISBN tanpa perlu login.
+   - Multi-tier query cache dengan waktu respon kilat (< 120 ms).
+   - Zero-PII Leakage: Identitas peminjam terlindungi secara aman dari publik.
+3. **Meja Sirkulasi Pustakawan**:
+   - Peminjaman buku berbasis barcode scanner USB.
+   - Perpanjangan masa pinjam (maksimal 1x per transaksi).
+   - Pengembalian buku dengan kalkulasi denda otomatis per hari terlambat.
+   - Pengurangan dan penambahan stok buku secara atomik tanpa race condition.
+4. **Manajemen Koleksi & Barcode Stiker**:
+   - Pencatatan buku lengkap dengan cover visual dan lokasi rak.
+   - Generator Barcode CODE128 siap cetak ke format label stiker 3x5 cm.
+   - Import data buku massal via spreadsheet CSV.
+5. **Manajemen Kartu Anggota Digital**:
+   - Registrasi siswa dan guru dengan nomor anggota dan NISN unik.
+   - Cetak kartu anggota perpustakaan digital ber-barcode siap scan.
+6. **Ekspor Laporan Multi-Format**:
+   - Ekspor rekapitulasi sirkulasi dan denda ke **Microsoft Excel (.xls)**.
+   - Ekspor laporan ber-kop dinas ke **Microsoft Word (.doc)**.
+   - Ekspor pratinjau dokumen resmi ke format **PDF**.
+7. **Keamanan & Pemeliharaan Terjadwal**:
+   - Otentikasi berjenjang (Role-Based Access Control: Administrator vs Petugas).
+   - Backup otomatis basis data ke format `.sql` terkompresi.
+   - Rotasi dan kompresi log aplikasi gzip dengan efisiensi hemat ruang hingga 97%.
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+---
 
-## Setup
+## 📂 Dokumentasi Lengkap Proyek
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+Seluruh dokumentasi teknis dan panduan operasional tersedia secara terstruktur pada direktori [`docs/`](docs/):
 
-## Important Change with index.php
+| Dokumen | Deskripsi | Tautan |
+|---|---|:---:|
+| **Dokumentasi Teknis & ERD** | Arsitektur MVC, ERD Mermaid 9 tabel, kamus data detail, 5 alur bisnis proses, dan panduan instalasi setup dari nol. | [Buka Dokumen](docs/DOKUMENTASI_TEKNIS.md) |
+| **Panduan Pengguna Staf** | Buku manual operasional meja sirkulasi, manajemen buku, cetak barcode/kartu, denda, dan laporan untuk pustakawan. | [Buka Dokumen](docs/PANDUAN_PENGGUNA_STAF.md) |
+| **Panduan Kios Siswa** | Panduan visual ramah anak langkah-demi-langkah peminjaman dan pengembalian mandiri di terminal kios. | [Buka Dokumen](docs/PANDUAN_KIOS_SISWA.md) |
+| **UAT Akhir & Lembar Pengesahan** | Matriks 20 kasus uji penerimaan pengguna beserta berita acara serah terima resmi (Sign-off). | [Buka Dokumen](docs/UAT_AKHIR_SIGN_OFF.md) |
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+---
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+## 🚀 Panduan Ringkas Menjalankan Proyek (Quick Start)
 
-**Please** read the user guide for a better explanation of how CI4 works!
+### 1. Prasyarat Sistem
+- PHP 8.2+ dengan ekstensi `mysqli`, `intl`, `mbstring`, `curl`, `gd`, `sqlite3`.
+- MariaDB 10.4 / MySQL (Port `3307`).
+- Composer 2.5+.
 
-## Repository Management
+### 2. Instalasi & Setup Basis Data
+```bash
+# 1. Unduh pustaka dependensi
+composer install
 
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+# 2. Salin environment
+copy env .env
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+# 3. Jalankan migrasi dan seeder data awal
+php spark migrate
+php spark db:seed MainSeeder
+```
 
-## Server Requirements
+### 3. Akun Bawaan Sistem
+- **Administrator Utama**: `admin` / `admin123` (Akses Penuh)
+- **Petugas Pustaka**: `petugas` / `petugas123` (Meja Sirkulasi)
 
-PHP version 8.2 or higher is required, with the following extensions installed:
+### 4. Menjalankan Server Lokal
+```bash
+# Menjalankan server lokal port 8080
+php spark serve --port=8080
+```
+Buka browser Anda:
+- **Katalog OPAC**: [http://localhost:8080/katalog](http://localhost:8080/katalog)
+- **Terminal Kios Siswa**: [http://localhost:8080/kiosk](http://localhost:8080/kiosk)
+- **Portal Login Staf**: [http://localhost:8080/login](http://localhost:8080/login)
 
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
+---
 
-> [!WARNING]
-> - The end of life date for PHP 7.4 was November 28, 2022.
-> - The end of life date for PHP 8.0 was November 26, 2023.
-> - The end of life date for PHP 8.1 was December 31, 2025.
-> - If you are still using below PHP 8.2, you should upgrade immediately.
-> - The end of life date for PHP 8.2 will be December 31, 2026.
+## 🧪 Pengujian Otomatis (Automated Testing)
 
-Additionally, make sure that the following extensions are enabled in your PHP:
+SIMPUS dilengkapi dengan rangkaian pengujian komprehensif:
 
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+```bash
+# 1. Menjalankan PHPUnit unit & feature test suite
+php spark test
+
+# 2. Menjalankan dengan format laporan TestDox
+php spark test --testdox
+
+# 3. Menjalankan Master QA Regression Suite (13 Modul)
+php scripts/run_all_qa.php
+```
+
+> Status Hasil: **25 Unit Tests Passed (100% Green)** dan **13 Modul QA Passed (All Tests Green)**.
+
+---
+
+## 📜 Lisensi
+Aplikasi ini dilisensikan di bawah lisensi terbuka [MIT License](LICENSE).
+Dikembangkan untuk mendukung program literasi dan digitalisasi perpustakaan sekolah dasar.

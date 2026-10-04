@@ -1,7 +1,7 @@
 {
   "name": "management-perpustakaan",
   "version": "1.0.0",
-  "description": "CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure. More information can be found at the [official site](https://codeigniter.com).",
+  "description": "SIMPUS - Sistem Informasi Manajemen Perpustakaan Sekolah berbasis CodeIgniter 4.",
   "main": "index.js",
   "directories": {
     "test": "tests"
@@ -9,10 +9,10 @@
   "scripts": {
     "build:css": "tailwindcss -i ./resources/css/app.css -o ./public/css/app.css --minify",
     "watch:css": "tailwindcss -i ./resources/css/app.css -o ./public/css/app.css --watch",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "php spark test"
   },
   "keywords": [],
-  "author": "",
+  "author": "gegen251",
   "license": "ISC",
   "devDependencies": {
     "tailwindcss": "^3.4.19"

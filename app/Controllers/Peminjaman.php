@@ -6,6 +6,7 @@ use App\Models\PeminjamanModel;
 use App\Models\BukuModel;
 use App\Models\AnggotaModel;
 use App\Models\PengaturanModel;
+use App\Libraries\CacheInvalidator;
 
 class Peminjaman extends BaseController
 {
@@ -175,6 +176,8 @@ class Peminjaman extends BaseController
             $adminId
         );
 
+        CacheInvalidator::invalidateKatalog();
+
         return redirect()->to(site_url('/peminjaman'))->with('success', "Peminjaman buku '{$buku['judul']}' untuk '{$anggota['nama']}' berhasil dicatat.");
     }
 
@@ -259,6 +262,8 @@ class Peminjaman extends BaseController
             "Perpanjangan peminjaman transaksi '{$peminjaman['kode_transaksi']}' (ke-" . ($currentPerpanjang + 1) . ") berhasil dicatat sampai tanggal " . date('d/m/Y', strtotime($newTempo)) . ".",
             $adminId
         );
+
+        CacheInvalidator::invalidateKatalog();
 
         return redirect()->to(site_url('/peminjaman'))->with('success', "Peminjaman transaksi '{$peminjaman['kode_transaksi']}' berhasil diperpanjang (+{$durasiDefault} hari) sampai tanggal " . date('d F Y', strtotime($newTempo)) . ".");
     }

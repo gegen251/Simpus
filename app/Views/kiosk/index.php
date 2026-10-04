@@ -23,8 +23,11 @@
     <!-- Production Compiled Tailwind CSS & Custom Tokens -->
     <link rel="stylesheet" href="<?= base_url('css/app.css') ?>">
 
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Lucide Icons (v0.468.0 — pinned) -->
+    <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+    <!-- CDN Fallback Loader (self-hosted Lucide as backup) -->
+    <script>window.__BASE_URL__ = '<?= base_url() ?>';</script>
+    <script src="<?= base_url('js/cdn-fallback.js') ?>"></script>
 </head>
 <body class="bg-[#FBF9F5] dark:bg-[#0C1222] text-[#2C3E50] dark:text-slate-100 min-h-screen flex flex-col justify-between selection:bg-[#1B2A4A] selection:text-white transition-colors duration-200">
 

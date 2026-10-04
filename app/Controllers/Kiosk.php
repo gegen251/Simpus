@@ -8,6 +8,7 @@ use App\Models\PeminjamanModel;
 use App\Models\PengembalianModel;
 use App\Models\PengaturanModel;
 use App\Models\AdminModel;
+use App\Libraries\CacheInvalidator;
 
 class Kiosk extends BaseController
 {
@@ -306,6 +307,8 @@ class Kiosk extends BaseController
             $adminId
         );
 
+        CacheInvalidator::invalidateKatalog();
+
         return $this->response->setJSON([
             'success'             => true,
             'message'             => 'Peminjaman buku berhasil diproses!',
@@ -408,6 +411,8 @@ class Kiosk extends BaseController
             "Pengembalian mandiri buku '{$pinjaman['judul']}' ({$pinjaman['kode_transaksi']}) oleh siswa '{$pinjaman['nama_anggota']}' berhasil diproses via Kiosk." . ($denda > 0 ? " Denda: Rp " . number_format($denda, 0, ',', '.') : ""),
             $adminId
         );
+
+        CacheInvalidator::invalidateKatalog();
 
         return $this->response->setJSON([
             'success'        => true,

@@ -6,6 +6,7 @@ use App\Models\PengembalianModel;
 use App\Models\PeminjamanModel;
 use App\Models\BukuModel;
 use App\Models\PengaturanModel;
+use App\Libraries\CacheInvalidator;
 
 class Pengembalian extends BaseController
 {
@@ -139,6 +140,8 @@ class Pengembalian extends BaseController
         if ($denda > 0) {
             $msg .= " Dikenakan denda keterlambatan Rp " . number_format($denda, 0, ',', '.') . " ($hariTerlambat hari) [Status: " . ucfirst($statusDenda) . "].";
         }
+
+        CacheInvalidator::invalidateKatalog();
 
         return redirect()->to(site_url('/pengembalian/riwayat'))->with('success', $msg);
     }

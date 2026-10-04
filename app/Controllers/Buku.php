@@ -6,6 +6,7 @@ use App\Models\BukuModel;
 use App\Models\KategoriModel;
 use App\Models\PeminjamanModel;
 use App\Models\PengaturanModel;
+use App\Libraries\CacheInvalidator;
 
 class Buku extends BaseController
 {
@@ -134,6 +135,8 @@ class Buku extends BaseController
             'cover'            => $coverPath,
         ]);
 
+        CacheInvalidator::invalidateKatalog();
+
         return redirect()->to(site_url('/buku'))->with('success', 'Data buku berhasil ditambahkan.');
     }
 
@@ -202,6 +205,8 @@ class Buku extends BaseController
             'cover'            => $coverPath,
         ]);
 
+        CacheInvalidator::invalidateKatalog();
+
         return redirect()->to(site_url('/buku'))->with('success', 'Data buku berhasil diperbarui.');
     }
 
@@ -235,6 +240,8 @@ class Buku extends BaseController
                 'HAPUS_BUKU',
                 "Menghapus data buku: '{$buku['judul']}' (Kode: {$buku['kode_buku']})."
             );
+
+            CacheInvalidator::invalidateKatalog();
 
             return redirect()->to(site_url('/buku'))->with('success', 'Data buku berhasil dihapus.');
         } catch (\Exception $e) {
@@ -430,6 +437,8 @@ class Buku extends BaseController
         if ($skippedCount > 0) {
             $msg .= " ({$skippedCount} baris dilewati karena data tidak lengkap).";
         }
+
+        CacheInvalidator::invalidateKatalog();
 
         return redirect()->to(site_url('/buku'))->with('success', $msg);
     }

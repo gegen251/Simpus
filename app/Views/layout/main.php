@@ -22,12 +22,15 @@
     <!-- Production Compiled Tailwind CSS & Custom Tokens -->
     <link rel="stylesheet" href="<?= base_url('css/app.css') ?>">
 
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- SweetAlert2 -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Lucide Icons (v0.468.0 — pinned) -->
+    <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+    <!-- Chart.js (v4.4.7 — pinned) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+    <!-- SweetAlert2 (v11.14.5 — pinned) -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.14.5/dist/sweetalert2.all.min.js"></script>
+    <!-- CDN Fallback Loader (self-hosted Lucide as backup) -->
+    <script>window.__BASE_URL__ = '<?= base_url() ?>';</script>
+    <script src="<?= base_url('js/cdn-fallback.js') ?>"></script>
 </head>
 <body class="bg-slate-50 dark:bg-[#0B111E] text-slate-800 dark:text-slate-100 font-sans antialiased min-h-screen flex flex-col selection:bg-navy-800 selection:text-white transition-colors duration-200 relative">
 

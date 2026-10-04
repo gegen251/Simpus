@@ -12,6 +12,11 @@ class AuthFilter implements FilterInterface
     {
         $session = session();
         if (!$session->get('logged_in')) {
+            if ($request->isAJAX()) {
+                return service('response')
+                    ->setStatusCode(401)
+                    ->setJSON(['status' => 'error', 'message' => 'Silakan login terlebih dahulu.']);
+            }
             return redirect()->to(site_url('/login'))->with('error', 'Silakan login terlebih dahulu untuk mengakses sistem.');
         }
     }

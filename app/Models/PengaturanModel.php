@@ -42,4 +42,12 @@ class PengaturanModel extends Model
         }
         return $this->insert(['kunci' => $kunci, 'nilai' => $nilai]);
     }
+
+    /**
+     * Alias for getKunci() — used by KioskFilter and other modules.
+     */
+    public function getNilai($kunci, $default = null)
+    {
+        return $this->getKunci($kunci, $default);
+    }
 }
