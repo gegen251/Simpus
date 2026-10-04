@@ -28,7 +28,7 @@
     <script>window.__BASE_URL__ = '<?= base_url() ?>';</script>
     <script src="<?= base_url('js/cdn-fallback.js') ?>"></script>
 </head>
-<body class="bg-[#FBF9F5] dark:bg-[#0C121E] min-h-screen flex items-center justify-center p-4 sm:p-6 selection:bg-navy-800 selection:text-white relative font-sans transition-colors duration-200">
+<body class="bg-[#FBF9F5] dark:bg-[#0C121E] min-h-screen flex items-center justify-center p-3 sm:p-6 overflow-x-hidden selection:bg-navy-800 selection:text-white relative font-sans transition-colors duration-200">
 
     <!-- Top Loading Progress Bar -->
     <div id="topProgressBar" class="fixed top-0 left-0 right-0 h-1 bg-terracotta-500 transform -translate-x-full transition-transform duration-700 ease-out z-50"></div>
@@ -37,18 +37,18 @@
     <div class="w-full max-w-md relative z-10">
 
         <!-- Top Header Bar with Tombol Kembali -->
-        <div class="mb-3.5 flex items-center justify-between">
+        <div class="mb-3.5 flex items-center justify-between gap-2">
             <a href="<?= site_url('/katalog') ?>" 
                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 text-slate-600 dark:text-slate-300 hover:text-navy-900 dark:hover:text-white text-xs font-semibold shadow-2xs transition-colors group"
                title="Kembali ke Halaman Katalog Perpustakaan">
                 <i data-lucide="arrow-left" class="w-3.5 h-3.5 text-slate-400 group-hover:text-navy-900 dark:group-hover:text-white transition-transform"></i>
                 <span>Kembali ke Katalog</span>
             </a>
-            <span class="text-[11px] font-medium text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-800 px-2.5 py-1 rounded-md border border-slate-200/80 dark:border-slate-700">Portal Petugas</span>
+            <span class="hidden min-[360px]:inline-flex text-[11px] font-medium text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-800 px-2.5 py-1 rounded-md border border-slate-200/80 dark:border-slate-700 whitespace-nowrap">Portal Petugas</span>
         </div>
 
         <!-- Main Card Container (Flat Ledger Card) -->
-        <div class="w-full bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 p-7 sm:p-8 relative transition-colors">
+        <div class="w-full bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 p-5 sm:p-8 relative transition-colors">
             
             <!-- Header with Official Logo -->
             <div class="text-center mb-6">
@@ -89,7 +89,7 @@
                             <i data-lucide="user" class="w-4 h-4"></i>
                         </div>
                         <input type="text" id="username" name="username" value="<?= old('username', 'admin') ?>" required autofocus
-                               class="w-full pl-9 pr-3.5 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800 text-xs text-slate-900 dark:text-slate-100 focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:border-navy-800 dark:focus:border-amber-400 focus:ring-1 focus:ring-navy-800 transition-colors placeholder:text-slate-400"
+                               class="w-full pl-9 pr-3.5 py-2.5 sm:py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800 text-base sm:text-xs text-slate-900 dark:text-slate-100 focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:border-navy-800 dark:focus:border-amber-400 focus:ring-1 focus:ring-navy-800 transition-colors placeholder:text-slate-400"
                                placeholder="Masukkan username atau email">
                     </div>
                 </div>
@@ -102,7 +102,7 @@
                             <i data-lucide="lock" class="w-4 h-4"></i>
                         </div>
                         <input type="password" id="password" name="password" value="admin123" required
-                               class="w-full pl-9 pr-10 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800 text-xs text-slate-900 dark:text-slate-100 focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:border-navy-800 dark:focus:border-amber-400 focus:ring-1 focus:ring-navy-800 transition-colors placeholder:text-slate-400"
+                               class="w-full pl-9 pr-10 py-2.5 sm:py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800 text-base sm:text-xs text-slate-900 dark:text-slate-100 focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:border-navy-800 dark:focus:border-amber-400 focus:ring-1 focus:ring-navy-800 transition-colors placeholder:text-slate-400"
                                placeholder="Masukkan kata sandi">
                         <!-- Toggle View Password Button -->
                         <button type="button" id="togglePasswordBtn"
@@ -116,7 +116,7 @@
                 <!-- Submit Button with Loading Animation State -->
                 <div class="pt-2">
                     <button type="submit" id="submitBtn"
-                            class="w-full py-2.5 px-4 rounded-lg bg-navy-800 hover:bg-navy-900 dark:bg-navy-700 dark:hover:bg-navy-600 text-white text-xs font-semibold shadow-xs transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-75 disabled:cursor-not-allowed">
+                            class="w-full min-h-11 py-2.5 px-4 rounded-lg bg-navy-800 hover:bg-navy-900 dark:bg-navy-700 dark:hover:bg-navy-600 text-white text-sm sm:text-xs font-semibold shadow-xs transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-75 disabled:cursor-not-allowed">
                         <span id="btnText" class="flex items-center gap-1.5">
                             <span>Masuk ke Sistem</span>
                             <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>

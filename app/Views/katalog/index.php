@@ -20,23 +20,23 @@
     <script>window.__BASE_URL__ = '<?= base_url() ?>';</script>
     <script src="<?= base_url('js/cdn-fallback.js') ?>"></script>
 </head>
-<body class="bg-[#FBF9F5] dark:bg-[#0C1222] text-[#2C3E50] dark:text-slate-100 font-sans antialiased min-h-screen flex flex-col selection:bg-[#1B2A4A] selection:text-white transition-colors duration-200">
+<body class="bg-[#FBF9F5] dark:bg-[#0C1222] text-[#2C3E50] dark:text-slate-100 font-sans antialiased min-h-screen flex flex-col overflow-x-hidden selection:bg-[#1B2A4A] selection:text-white transition-colors duration-200">
 
     <!-- Top Navigation Bar -->
     <header class="sticky top-0 z-30 bg-white/95 dark:bg-[#131B2E]/95 backdrop-blur-md border-b border-[#E5DFD3]/80 dark:border-slate-800 shadow-2xs transition-colors">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+        <div class="mobile-viewport-shell max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 min-h-16 sm:h-20 py-2 sm:py-0 flex items-center justify-between gap-2 min-w-0">
             <!-- Brand with Official Logo -->
-            <a href="<?= site_url('/katalog') ?>" class="flex items-center gap-3.5 group focus:outline-none shrink-0">
-                <div class="w-12 h-12 rounded-xl bg-white dark:bg-slate-800 p-2 flex items-center justify-center border border-[#E5DFD3] dark:border-slate-700 shadow-2xs shrink-0 transition-transform group-hover:scale-[1.02]">
+            <a href="<?= site_url('/katalog') ?>" class="flex items-center gap-2 sm:gap-3.5 group focus:outline-none min-w-0 overflow-hidden">
+                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl bg-white dark:bg-slate-800 p-1.5 sm:p-2 flex items-center justify-center border border-[#E5DFD3] dark:border-slate-700 shadow-2xs shrink-0 transition-transform group-hover:scale-[1.02]">
                     <img src="<?= base_url('images/logo.png') ?>" alt="SIMPUS Logo" class="w-full h-full object-contain">
                 </div>
-                <div class="flex flex-col justify-center">
-                    <div class="flex items-center gap-2">
-                        <span class="font-serif font-bold text-xl text-[#1B2A4A] dark:text-slate-100 leading-none tracking-tight">SIMPUS</span>
-                        <span class="px-2 py-0.5 rounded-md text-[10px] font-semibold tracking-wide bg-[#B8791F]/10 text-[#B8791F] dark:text-amber-300 border border-[#B8791F]/25 leading-none">SDN 12</span>
-                        <span class="px-2 py-0.5 rounded-md text-[10px] font-semibold tracking-wide bg-[#1B2A4A]/10 text-[#1B2A4A] dark:text-sky-300 border border-[#1B2A4A]/20 leading-none">OPAC</span>
+                <div class="flex flex-col justify-center min-w-0">
+                    <div class="flex items-center gap-1.5 sm:gap-2">
+                        <span class="font-serif font-bold text-lg sm:text-xl text-[#1B2A4A] dark:text-slate-100 leading-none tracking-tight">SIMPUS</span>
+                        <span class="hidden sm:inline-flex px-2 py-0.5 rounded-md text-[10px] font-semibold tracking-wide bg-[#B8791F]/10 text-[#B8791F] dark:text-amber-300 border border-[#B8791F]/25 leading-none">SDN 12</span>
+                        <span class="hidden sm:inline-flex px-2 py-0.5 rounded-md text-[10px] font-semibold tracking-wide bg-[#1B2A4A]/10 text-[#1B2A4A] dark:text-sky-300 border border-[#1B2A4A]/20 leading-none">OPAC</span>
                     </div>
-                    <div class="flex items-center gap-1.5 mt-1.5">
+                    <div class="hidden sm:flex items-center gap-1.5 mt-1.5 min-w-0">
                         <span class="relative flex h-2 w-2 shrink-0">
                             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                             <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
@@ -49,28 +49,30 @@
             </a>
 
             <!-- Right Actions (Theme Toggle, Divider, & Login/Dashboard Button) -->
-            <div class="flex items-center gap-2.5 sm:gap-3">
+            <div class="flex items-center gap-1.5 sm:gap-3 shrink-0">
                 <!-- Theme Toggle Button -->
-                <button id="themeToggle" class="h-11 w-11 rounded-xl bg-white hover:bg-[#F4EFE6] dark:bg-slate-800 dark:hover:bg-slate-700 text-[#5C6470] dark:text-slate-300 transition-all border border-[#E5DFD3] dark:border-slate-700 flex items-center justify-center shadow-2xs shrink-0 focus:outline-none focus:ring-2 focus:ring-[#1B2A4A]/20" title="Ubah Tema Tampilan">
+                <button id="themeToggle" class="h-10 w-10 sm:h-11 sm:w-11 rounded-lg sm:rounded-xl bg-white hover:bg-[#F4EFE6] dark:bg-slate-800 dark:hover:bg-slate-700 text-[#5C6470] dark:text-slate-300 transition-all border border-[#E5DFD3] dark:border-slate-700 flex items-center justify-center shadow-2xs shrink-0 focus:outline-none focus:ring-2 focus:ring-[#1B2A4A]/20" title="Ubah Tema Tampilan">
                     <i data-lucide="moon" class="w-4 h-4 hidden dark:block text-amber-400"></i>
                     <i data-lucide="sun" class="w-4 h-4 block dark:hidden text-[#B8791F]"></i>
                 </button>
 
                 <!-- Subtle Vertical Divider -->
-                <div class="h-6 w-px bg-[#E5DFD3] dark:bg-slate-700"></div>
+                <div class="hidden sm:block h-6 w-px bg-[#E5DFD3] dark:bg-slate-700"></div>
 
                 <!-- Login / Dashboard Petugas Button -->
                 <?php if (session()->get('logged_in')): ?>
                     <a href="<?= site_url('/dashboard') ?>" 
-                       class="inline-flex items-center gap-2 h-11 px-4 sm:px-5 rounded-xl text-xs font-semibold text-white bg-[#1B2A4A] hover:bg-[#24375D] shadow-xs hover:shadow-md transition-all border border-[#1B2A4A] shrink-0">
+                       aria-label="Buka panel staf" title="Panel Staf"
+                       class="inline-flex items-center justify-center gap-1.5 sm:gap-2 h-10 w-10 sm:w-auto sm:h-11 px-0 sm:px-5 rounded-lg sm:rounded-xl text-xs font-semibold text-white bg-[#1B2A4A] hover:bg-[#24375D] shadow-xs hover:shadow-md transition-all border border-[#1B2A4A] shrink-0">
                         <i data-lucide="layout-dashboard" class="w-4 h-4 text-amber-400"></i>
-                        <span>Panel Staf</span>
+                        <span class="hidden sm:inline">Panel Staf</span>
                     </a>
                 <?php else: ?>
                     <a href="<?= site_url('/login') ?>" 
-                       class="inline-flex items-center gap-2 h-11 px-4 sm:px-5 rounded-xl text-xs font-semibold text-white bg-[#1B2A4A] hover:bg-[#24375D] shadow-xs hover:shadow-md transition-all border border-[#1B2A4A] shrink-0">
+                       aria-label="Masuk sebagai staf" title="Masuk Staf"
+                       class="inline-flex items-center justify-center gap-1.5 sm:gap-2 h-10 w-10 sm:w-auto sm:h-11 px-0 sm:px-5 rounded-lg sm:rounded-xl text-xs font-semibold text-white bg-[#1B2A4A] hover:bg-[#24375D] shadow-xs hover:shadow-md transition-all border border-[#1B2A4A] shrink-0">
                         <i data-lucide="lock" class="w-4 h-4 text-amber-400"></i>
-                        <span>Masuk Staf</span>
+                        <span class="hidden sm:inline">Masuk Staf</span>
                     </a>
                 <?php endif; ?>
             </div>
@@ -78,18 +80,18 @@
     </header>
 
     <!-- Main Content Container -->
-    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-7 space-y-7">
+    <main class="mobile-viewport-shell flex-1 max-w-7xl w-full min-w-0 mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-7 space-y-5 sm:space-y-7">
 
         <!-- Hero Section with Deep Navy Library Tone -->
-        <section class="rounded-xl overflow-hidden bg-[#1B2A4A] text-white p-7 sm:p-10 shadow-sm border border-[#24375D]">
+        <section class="w-full min-w-0 rounded-xl overflow-hidden bg-[#1B2A4A] text-white p-5 sm:p-10 shadow-sm border border-[#24375D]">
             <div class="max-w-3xl mx-auto text-center space-y-4">
                 <!-- Chip Badge -->
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-xs font-semibold border border-white/15 text-amber-300">
+                <div class="inline-flex items-center justify-center gap-2 px-3 py-1 rounded-full bg-white/10 text-[11px] sm:text-xs font-semibold border border-white/15 text-amber-300 leading-snug">
                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                    <span>Katalog OPAC Terbuka &bull; Koleksi Perpustakaan SDN 12 Sumbawa</span>
+                    <span class="min-w-0">Katalog OPAC Terbuka &bull; Koleksi Perpustakaan SDN 12 Sumbawa</span>
                 </div>
                 
-                <h1 class="font-serif font-bold text-2xl sm:text-3.5xl text-white tracking-tight leading-snug">
+                <h1 class="font-serif font-bold text-xl sm:text-3.5xl text-white tracking-tight leading-snug break-words">
                     Temukan Buku & Bahan Pustaka Siswa
                 </h1>
                 
@@ -99,31 +101,36 @@
 
                 <!-- Search Bar Form -->
                 <form action="<?= site_url('/katalog') ?>" method="GET" class="pt-2 max-w-2xl mx-auto">
-                    <div class="relative flex items-center">
-                        <div class="absolute left-4 text-slate-400 pointer-events-none">
-                            <i data-lucide="search" class="w-5 h-5 text-amber-400"></i>
-                        </div>
-                        <input type="text" name="q" value="<?= esc($keyword ?? '') ?>"
-                               placeholder="Ketik judul buku, nama penulis, nomor ISBN, atau kategori..."
-                               class="w-full pl-12 pr-28 sm:pr-36 py-3.5 rounded-lg bg-white dark:bg-[#131B2E] text-[#1B2A4A] dark:text-white placeholder-slate-400 text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-amber-400 border border-[#E5DFD3] dark:border-slate-700 transition-all">
-                        
-                        <div class="absolute right-2 flex items-center gap-1.5">
+                    <div class="flex flex-col gap-2 sm:block">
+                        <div class="relative flex items-center">
+                            <div class="absolute left-4 text-slate-400 pointer-events-none">
+                                <i data-lucide="search" class="w-5 h-5 text-amber-400"></i>
+                            </div>
+                            <input type="text" name="q" value="<?= esc($keyword ?? '') ?>"
+                                   placeholder="Judul, penulis, ISBN, atau kategori..."
+                                   class="w-full pl-12 pr-11 sm:pr-36 py-3.5 rounded-lg bg-white dark:bg-[#131B2E] text-[#1B2A4A] dark:text-white placeholder-slate-400 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-amber-400 border border-[#E5DFD3] dark:border-slate-700 transition-all">
+
+                            <div class="absolute right-2 flex items-center gap-1.5">
                             <?php if (!empty($keyword)): ?>
                                 <a href="<?= site_url('/katalog') ?>" class="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-white" title="Reset Pencarian">
                                     <i data-lucide="x" class="w-4 h-4"></i>
                                 </a>
                             <?php endif; ?>
-                            <button type="submit" class="px-4 sm:px-5 py-2 rounded-md bg-[#C1613A] hover:bg-[#A95330] text-white font-bold text-xs sm:text-sm shadow-xs transition-colors">
+                            <button type="submit" class="hidden sm:inline-flex px-5 py-2 rounded-md bg-[#C1613A] hover:bg-[#A95330] text-white font-bold text-sm shadow-xs transition-colors">
                                 Cari Buku
                             </button>
+                            </div>
                         </div>
+                        <button type="submit" class="sm:hidden w-full min-h-11 px-5 py-2.5 rounded-lg bg-[#C1613A] hover:bg-[#A95330] text-white font-bold text-sm shadow-xs transition-colors">
+                            Cari Buku
+                        </button>
                     </div>
 
                     <!-- Filter Ketersediaan Toggle -->
                     <div class="flex flex-wrap items-center justify-center gap-3 mt-3.5 text-xs">
-                        <label class="inline-flex items-center gap-2 cursor-pointer bg-white/10 hover:bg-white/15 px-3 py-1 rounded-md border border-white/15 transition-colors">
-                            <input type="checkbox" name="ketersediaan" value="tersedia" <?= ($ketersediaan === 'tersedia') ? 'checked' : '' ?> onchange="this.form.submit()" class="rounded text-[#C1613A] focus:ring-0">
-                            <span class="text-slate-200 font-medium">Hanya tampilkan buku yang sedang tersedia di rak</span>
+                        <label class="inline-flex w-full sm:w-auto items-start sm:items-center gap-2 cursor-pointer bg-white/10 hover:bg-white/15 px-3 py-2 sm:py-1 rounded-md border border-white/15 transition-colors text-left">
+                            <input type="checkbox" name="ketersediaan" value="tersedia" <?= ($ketersediaan === 'tersedia') ? 'checked' : '' ?> onchange="this.form.submit()" class="mt-0.5 sm:mt-0 rounded text-[#C1613A] focus:ring-0 shrink-0">
+                            <span class="text-slate-200 font-medium leading-snug">Hanya tampilkan buku yang sedang tersedia di rak</span>
                         </label>
                     </div>
                 </form>
@@ -131,7 +138,7 @@
         </section>
 
         <!-- Quick Metrics -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             <!-- 1. Total Koleksi -->
             <div class="bg-white dark:bg-[#131B2E] p-4 rounded-xl border border-[#E5DFD3] dark:border-slate-800 shadow-sm flex items-center gap-3">
                 <div class="w-10 h-10 rounded-lg bg-[#1B2A4A] text-white flex items-center justify-center shrink-0">
@@ -204,7 +211,7 @@
 
         <!-- Books Grid Section -->
         <section class="space-y-4">
-            <div class="flex items-center justify-between text-xs text-[#5C6470] dark:text-slate-400 border-b border-[#E5DFD3] dark:border-slate-800 pb-2">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5 text-xs text-[#5C6470] dark:text-slate-400 border-b border-[#E5DFD3] dark:border-slate-800 pb-2">
                 <div>
                     Menampilkan <strong><?= count($buku) ?></strong> judul buku 
                     <?php if (!empty($keyword)): ?>
@@ -322,18 +329,18 @@
     </main>
 
     <!-- Modal Detail Sinopsis Buku -->
-    <div id="modalDetail" class="fixed inset-0 z-50 bg-[#1B2A4A]/60 hidden items-center justify-center p-4 transition-all">
+    <div id="modalDetail" class="fixed inset-0 z-50 bg-[#1B2A4A]/60 hidden items-center justify-center p-2 sm:p-4 transition-all">
         <div class="bg-white dark:bg-[#131B2E] w-full max-w-2xl rounded-xl shadow-xl overflow-hidden border border-[#E5DFD3] dark:border-slate-800 max-h-[90vh] flex flex-col text-xs">
             
             <!-- Modal Header -->
-            <div class="px-5 py-4 bg-[#1B2A4A] text-white flex items-center justify-between border-b border-[#1B2A4A] shrink-0">
-                <div class="flex items-center gap-2.5">
+            <div class="px-4 sm:px-5 py-3 sm:py-4 bg-[#1B2A4A] text-white flex items-center justify-between gap-3 border-b border-[#1B2A4A] shrink-0">
+                <div class="flex items-center gap-2.5 min-w-0">
                     <div class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center text-amber-400">
                         <i data-lucide="book-open" class="w-4 h-4"></i>
                     </div>
-                    <div>
-                        <h4 class="font-serif font-bold text-sm leading-tight text-white">Rincian Buku & Sinopsis Koleksi</h4>
-                        <p class="text-[11px] text-slate-300">Informasi lengkap ketersediaan koleksi perpustakaan SDN 12 Sumbawa</p>
+                    <div class="min-w-0">
+                        <h4 class="font-serif font-bold text-sm leading-tight text-white truncate">Rincian Buku & Sinopsis Koleksi</h4>
+                        <p class="hidden sm:block text-[11px] text-slate-300">Informasi lengkap ketersediaan koleksi perpustakaan SDN 12 Sumbawa</p>
                     </div>
                 </div>
                 <button type="button" onclick="closeDetailModal()" class="text-slate-300 hover:text-white p-1 rounded-lg hover:bg-white/10 transition-colors">
@@ -342,7 +349,7 @@
             </div>
 
             <!-- Modal Body -->
-            <div class="p-5 overflow-y-auto space-y-5 text-xs">
+            <div class="p-4 sm:p-5 overflow-y-auto space-y-5 text-xs">
                 <div class="flex flex-col sm:flex-row gap-5 items-center sm:items-start">
                     <!-- Cover Box -->
                     <div class="w-32 h-44 shrink-0 rounded-lg overflow-hidden border border-[#E5DFD3] dark:border-slate-700 bg-[#F4EFE6] dark:bg-slate-800 relative flex items-center justify-center">

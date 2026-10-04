@@ -32,7 +32,7 @@
     <script>window.__BASE_URL__ = '<?= base_url() ?>';</script>
     <script src="<?= base_url('js/cdn-fallback.js') ?>"></script>
 </head>
-<body class="bg-slate-50 dark:bg-[#0B111E] text-slate-800 dark:text-slate-100 font-sans antialiased min-h-screen flex flex-col selection:bg-navy-800 selection:text-white transition-colors duration-200 relative">
+<body class="bg-slate-50 dark:bg-[#0B111E] text-slate-800 dark:text-slate-100 font-sans antialiased min-h-screen flex flex-col overflow-x-hidden selection:bg-navy-800 selection:text-white transition-colors duration-200 relative">
 
     <div class="flex min-h-screen">
         <!-- Sidebar Navigation (Bookcloth Deep Navy) -->
@@ -164,8 +164,8 @@
         <!-- Main Content Area -->
         <div class="flex-1 md:ml-64 flex flex-col min-w-0 transition-colors duration-200">
             <!-- Top Navbar (Flat Ledger Header) -->
-            <header class="h-16 bg-white dark:bg-[#0F172A] border-b border-slate-200 dark:border-slate-800 px-4 sm:px-8 flex items-center justify-between sticky top-0 z-20 transition-colors duration-200 shadow-xs">
-                <div class="flex items-center gap-3">
+            <header class="h-16 bg-white dark:bg-[#0F172A] border-b border-slate-200 dark:border-slate-800 px-3 sm:px-8 flex items-center justify-between gap-2 sticky top-0 z-20 transition-colors duration-200 shadow-xs">
+                <div class="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
                     <button id="toggle-sidebar" class="md:hidden p-1.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none transition-colors">
                         <i data-lucide="menu" class="w-5 h-5"></i>
                     </button>
@@ -174,8 +174,8 @@
                         <img src="<?= base_url('images/logo.png') ?>" alt="SIMPUS" class="w-full h-full object-contain">
                     </div>
 
-                    <div>
-                        <h2 class="text-base sm:text-lg font-serif font-bold text-slate-900 dark:text-white leading-tight"><?= esc($title ?? 'Dashboard') ?></h2>
+                    <div class="min-w-0">
+                        <h2 class="text-sm sm:text-lg font-serif font-bold text-slate-900 dark:text-white leading-tight truncate"><?= esc($title ?? 'Dashboard') ?></h2>
                         <div class="flex items-center gap-2 text-[11px] text-slate-500 dark:text-slate-400">
                             <span class="font-semibold text-slate-700 dark:text-slate-300">SIMPUS SD</span>
                             <span>&bull;</span>
@@ -185,7 +185,7 @@
                 </div>
 
                 <!-- Right Quick Info & Theme Switcher -->
-                <div class="flex items-center gap-2.5">
+                <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
                     <!-- Dark / Light Mode Toggle Button -->
                     <button id="theme-toggle" type="button" onclick="toggleTheme()"
                             class="p-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-amber-400 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors shadow-2xs flex items-center gap-1.5 focus:outline-none focus:ring-1 focus:ring-navy-800"
@@ -215,21 +215,21 @@
                     <div class="w-px h-5 bg-slate-200 dark:bg-slate-700 hidden sm:block"></div>
 
                     <!-- Action Button: Pinjam Buku (Terracotta Solid) -->
-                    <a href="<?= site_url('/peminjaman') ?>" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-terracotta-500 hover:bg-terracotta-600 text-white text-xs font-semibold rounded-lg shadow-xs transition-colors">
+                    <a href="<?= site_url('/peminjaman') ?>" aria-label="Pinjam Buku" title="Pinjam Buku" class="inline-flex items-center justify-center gap-1.5 min-w-9 min-h-9 px-2.5 sm:px-3 py-1.5 bg-terracotta-500 hover:bg-terracotta-600 text-white text-xs font-semibold rounded-lg shadow-xs transition-colors">
                         <i data-lucide="plus" class="w-3.5 h-3.5"></i>
-                        <span>Pinjam Buku</span>
+                        <span class="hidden sm:inline">Pinjam Buku</span>
                     </a>
                 </div>
             </header>
 
             <!-- Body Content Container -->
-            <main class="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto">
+            <main class="flex-1 p-3 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto min-w-0">
                 <!-- Render Injected View Section -->
                 <?= $this->renderSection('content') ?>
             </main>
 
             <!-- Footer (Clean Ledger Footer) -->
-            <footer class="mt-auto border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0F172A] py-3.5 px-6 text-center text-xs text-slate-500 dark:text-slate-400 transition-colors duration-200">
+            <footer class="mt-auto border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0F172A] py-3.5 px-4 sm:px-6 text-center text-xs text-slate-500 dark:text-slate-400 transition-colors duration-200">
                 <p>&copy; <?= date('Y') ?> SIMPUS SD &bull; <?= esc($config['nama_perpustakaan'] ?? 'SD Negeri 12 Sumbawa') ?> &bull; Sistem Informasi Manajemen Perpustakaan</p>
             </footer>
         </div>
@@ -238,7 +238,7 @@
     <!-- ========================================================================= -->
     <!-- GLOBAL TOAST NOTIFICATION CONTAINER                                       -->
     <!-- ========================================================================= -->
-    <div id="toast-container" class="fixed top-5 right-5 z-[99999] flex flex-col gap-2.5 max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
+    <div id="toast-container" class="fixed top-3 left-3 right-3 sm:top-5 sm:left-auto sm:right-5 z-[99999] flex flex-col gap-2.5 sm:max-w-sm sm:w-full pointer-events-none"></div>
 
     <!-- ========================================================================= -->
     <!-- MODAL KONFIRMASI LOGOUT                                                    -->
