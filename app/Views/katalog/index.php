@@ -56,6 +56,14 @@
                     <i data-lucide="sun" class="w-4 h-4 block dark:hidden text-[#B8791F]"></i>
                 </button>
 
+                <!-- Tombol Layanan Mandiri Kiosk Siswa -->
+                <a href="<?= site_url('/kiosk') ?>" target="_blank"
+                   aria-label="Layanan Mandiri Siswa" title="Layanan Mandiri Siswa (Kiosk)"
+                   class="inline-flex items-center justify-center gap-1.5 sm:gap-2 h-10 w-10 sm:w-auto sm:h-11 px-0 sm:px-3.5 rounded-lg sm:rounded-xl text-xs font-semibold text-slate-700 dark:text-slate-200 bg-white hover:bg-[#F4EFE6] dark:bg-slate-800 dark:hover:bg-slate-700 shadow-2xs hover:shadow-xs transition-all border border-[#E5DFD3] dark:border-slate-700 shrink-0">
+                    <i data-lucide="scan-line" class="w-4 h-4 text-amber-500"></i>
+                    <span class="hidden md:inline">Layanan Mandiri</span>
+                </a>
+
                 <!-- Subtle Vertical Divider -->
                 <div class="hidden sm:block h-6 w-px bg-[#E5DFD3] dark:bg-slate-700"></div>
 

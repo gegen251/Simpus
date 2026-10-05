@@ -48,6 +48,7 @@ class Pengaturan extends BaseController
             'durasi_pinjam_default',
             'tarif_denda_per_hari',
             'max_pinjam_buku',
+            'kiosk_mode',
             'kiosk_allowed_ips',
             'kiosk_secret_token',
         ];

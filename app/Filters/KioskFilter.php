@@ -11,21 +11,31 @@ class KioskFilter implements FilterInterface
 {
     public function before(RequestInterface $request, $arguments = null)
     {
-        $ip = $request->getIPAddress();
+        // 1. Jika pengguna sedang login sebagai Admin atau Staf, SELALU DIIZINKAN
+        if (session()->get('logged_in')) {
+            return;
+        }
 
-        // 1. Ambil pengaturan kiosk jika ada
-        $allowedIpsConfig = '';
+        // 2. Ambil pengaturan kiosk jika ada
+        $allowedIpsConfig  = '';
         $secretTokenConfig = 'kiosk-sdn12-official-token';
+        $kioskMode         = 'public'; // Default: publik agar bisa diakses siapa saja
 
         try {
-            $pengaturanModel = new PengaturanModel();
-            $allowedIpsConfig = $pengaturanModel->getNilai('kiosk_allowed_ips', '');
+            $pengaturanModel   = new PengaturanModel();
+            $allowedIpsConfig  = $pengaturanModel->getNilai('kiosk_allowed_ips', '');
             $secretTokenConfig = $pengaturanModel->getNilai('kiosk_secret_token', 'kiosk-sdn12-official-token');
+            $kioskMode         = $pengaturanModel->getNilai('kiosk_mode', 'public');
         } catch (\Throwable $e) {
             // Fallback jika database belum termuat
         }
 
-        // 2. Periksa Token Perangkat Kios (via Cookie, Header, atau Query Param)
+        // 3. JIKA MODE PUBLIK (atau allowlist ada '*'): Langsung izinkan akses
+        if ($kioskMode === 'public' || strpos($allowedIpsConfig, '*') !== false) {
+            return;
+        }
+
+        // 4. Periksa Token Perangkat Kios (via Cookie, Header, atau Query Param)
         $tokenFromCookie = $request->getCookie('kiosk_device_token');
         $tokenFromHeader = $request->getHeaderLine('X-Kiosk-Token');
         $tokenFromQuery  = $request->getGet('kiosk_token');

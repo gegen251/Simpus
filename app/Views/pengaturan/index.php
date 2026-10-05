@@ -135,6 +135,18 @@
                 </div>
             </div>
 
+            <div>
+                <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+                    <i data-lucide="globe" class="w-3.5 h-3.5 text-slate-400"></i>
+                    <span>Mode Akses Layanan Mandiri (Kiosk) *</span>
+                </label>
+                <select name="kiosk_mode" class="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-navy-900 focus:border-navy-900 focus:outline-none">
+                    <option value="public" <?= ($pengaturan['kiosk_mode'] ?? 'public') === 'public' ? 'selected' : '' ?>>Publik - Terbuka untuk umum (dapat diakses siapa saja dari internet)</option>
+                    <option value="restricted" <?= ($pengaturan['kiosk_mode'] ?? 'public') === 'restricted' ? 'selected' : '' ?>>Terbatas - Hanya perangkat resmi perpustakaan / jaringan lokal sekolah</option>
+                </select>
+                <span class="text-[10px] text-slate-400 mt-1 block">Pilih 'Publik' agar siswa/staf dari perangkat dan jaringan mana pun bisa membuka Kiosk tanpa blokir 403.</span>
+            </div>
+
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                 <div>
                     <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1 flex items-center gap-1.5">
