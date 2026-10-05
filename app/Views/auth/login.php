@@ -88,7 +88,7 @@
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
                             <i data-lucide="user" class="w-4 h-4"></i>
                         </div>
-                        <input type="text" id="username" name="username" value="<?= old('username', 'admin') ?>" required autofocus
+                        <input type="text" id="username" name="username" value="<?= old('username') ?>" required autofocus
                                class="w-full pl-9 pr-3.5 py-2.5 sm:py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800 text-base sm:text-xs text-slate-900 dark:text-slate-100 focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:border-navy-800 dark:focus:border-amber-400 focus:ring-1 focus:ring-navy-800 transition-colors placeholder:text-slate-400"
                                placeholder="Masukkan username atau email">
                     </div>
@@ -101,7 +101,7 @@
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
                             <i data-lucide="lock" class="w-4 h-4"></i>
                         </div>
-                        <input type="password" id="password" name="password" value="admin123" required
+                        <input type="password" id="password" name="password" required
                                class="w-full pl-9 pr-10 py-2.5 sm:py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800 text-base sm:text-xs text-slate-900 dark:text-slate-100 focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:border-navy-800 dark:focus:border-amber-400 focus:ring-1 focus:ring-navy-800 transition-colors placeholder:text-slate-400"
                                placeholder="Masukkan kata sandi">
                         <!-- Toggle View Password Button -->
@@ -131,15 +131,6 @@
                     </button>
                 </div>
             </form>
-
-            <!-- Quick Demo Credentials Hint Box -->
-            <div class="mt-5 pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs bg-slate-50 dark:bg-slate-800/60 p-3 rounded-lg border border-slate-200/80 dark:border-slate-700">
-                <div>
-                    <span class="font-bold text-slate-700 dark:text-slate-200 block text-[11px]">Akun Bawaan:</span>
-                    <span class="font-mono text-slate-600 dark:text-slate-400 text-[11px]">admin / admin123</span>
-                </div>
-                <span class="px-2 py-0.5 bg-slate-200/80 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded text-[10px] font-semibold">Lokal</span>
-            </div>
 
             <!-- Tombol Kembali Sekunder di Bagian Bawah -->
             <div class="mt-4 text-center">

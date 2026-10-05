@@ -1,0 +1,9 @@
+tunnel: 6635e045-82c9-465d-875a-5ea33e005ca3
+credentials-file: C:\Users\idepad slim 3\.cloudflared\6635e045-82c9-465d-875a-5ea33e005ca3.json
+
+ingress:
+  - hostname: simpus.online
+    service: http://127.0.0.1:8080
+  - hostname: www.simpus.online
+    service: http://127.0.0.1:8080
+  - service: http_status:404
