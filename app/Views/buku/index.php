@@ -633,7 +633,7 @@
                 <button type="button" onclick="closeModal('modalReviewTambahBuku')" class="px-3.5 py-1.5 text-xs font-semibold text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors">
                     &larr; Ubah
                 </button>
-                <button type="button" onclick="submitFormTambahBuku()" class="px-4 py-1.5 text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors flex items-center gap-1.5">
+                <button type="button" id="btnSubmitTambahBuku" onclick="submitFormTambahBuku(this)" class="px-4 py-1.5 text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors flex items-center gap-1.5">
                     <i data-lucide="check" class="w-3.5 h-3.5"></i>
                     <span>Konfirmasi & Simpan</span>
                 </button>
@@ -920,7 +920,11 @@
         openModal('modalReviewTambahBuku');
     }
 
-    function submitFormTambahBuku() {
+    function submitFormTambahBuku(btn) {
+        const targetBtn = btn || document.getElementById('btnSubmitTambahBuku');
+        if (window.setButtonLoading && !window.setButtonLoading(targetBtn, 'Menyimpan Buku...')) {
+            return;
+        }
         document.getElementById('formTambahBuku').submit();
     }
 

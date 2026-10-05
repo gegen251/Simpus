@@ -392,7 +392,7 @@
                 <button type="button" onclick="closeModal('modalReviewKembali')" class="px-4 py-2 font-semibold text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors">
                     Kembali & Ubah
                 </button>
-                <button type="button" onclick="document.getElementById('formProsesKembali').submit()" class="px-4 py-2 font-semibold bg-emerald-700 hover:bg-emerald-800 text-white rounded-lg transition-colors flex items-center gap-1.5">
+                <button type="button" id="btnSubmitProsesKembali" onclick="submitFormProsesKembali(this)" class="px-4 py-2 font-semibold bg-emerald-700 hover:bg-emerald-800 text-white rounded-lg transition-colors flex items-center gap-1.5">
                     <i data-lucide="check-check" class="w-4 h-4"></i>
                     <span>Konfirmasi & Selesaikan</span>
                 </button>
@@ -521,6 +521,14 @@
 
         openModal('modalReviewKembali');
         if (window.lucide) lucide.createIcons();
+    }
+
+    function submitFormProsesKembali(btn) {
+        const targetBtn = btn || document.getElementById('btnSubmitProsesKembali');
+        if (window.setButtonLoading && !window.setButtonLoading(targetBtn, 'Memproses Pengembalian...')) {
+            return;
+        }
+        document.getElementById('formProsesKembali').submit();
     }
 </script>
 

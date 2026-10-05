@@ -448,6 +448,63 @@
             <?php endif; ?>
         });
 
+        // Global helper to prevent double-submit and show loading spinner on any button
+        window.setButtonLoading = function(button, loadingText = 'Menyimpan...') {
+            if (!button) return false;
+            if (button.dataset.submitting === 'true' || button.disabled) {
+                return false;
+            }
+            button.dataset.submitting = 'true';
+            button.disabled = true;
+            button.classList.add('opacity-75', 'cursor-not-allowed', 'pointer-events-none');
+
+            // Save original HTML
+            button.dataset.originalHtml = button.innerHTML;
+
+            // Render spinner + loading text
+            button.innerHTML = `
+                <svg class="animate-spin -ml-0.5 mr-1.5 h-3.5 w-3.5 text-current inline-block shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                </svg>
+                <span>${loadingText}</span>
+            `;
+            return true;
+        };
+
+        // Reset button state if needed
+        window.resetButtonLoading = function(button) {
+            if (!button) return;
+            button.dataset.submitting = 'false';
+            button.disabled = false;
+            button.classList.remove('opacity-75', 'cursor-not-allowed', 'pointer-events-none');
+            if (button.dataset.originalHtml) {
+                button.innerHTML = button.dataset.originalHtml;
+            }
+            if (window.lucide) lucide.createIcons();
+        };
+
+        // Auto-protect all standard POST form submissions in the application
+        document.addEventListener('submit', function(e) {
+            const form = e.target;
+            // Ignore GET forms (e.g., search/filter bars)
+            if (form.method && form.method.toUpperCase() === 'GET') return;
+            if (form.dataset.noLoading) return;
+
+            // Prevent duplicate form submit event
+            if (form.dataset.submitting === 'true') {
+                e.preventDefault();
+                return false;
+            }
+
+            const submitBtn = form.querySelector('button[type="submit"]:not([disabled])');
+            if (submitBtn) {
+                form.dataset.submitting = 'true';
+                const text = submitBtn.dataset.loadingText || 'Menyimpan...';
+                window.setButtonLoading(submitBtn, text);
+            }
+        });
+
         // Global Confirm Delete with POST and CSRF Protection
         function confirmDelete(url, message = 'Apakah Anda yakin ingin menghapus data ini? Tindakan ini tidak dapat dibatalkan.') {
             if (window.Swal) {

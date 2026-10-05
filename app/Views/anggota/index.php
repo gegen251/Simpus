@@ -696,7 +696,7 @@
                 <button type="button" onclick="closeModal('modalReviewTambahAnggota')" class="px-4 py-2 text-xs font-semibold text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors">
                     &larr; Kembali & Ubah
                 </button>
-                <button type="button" onclick="submitFormTambahAnggota()" class="px-4 py-2 text-xs font-semibold bg-emerald-700 hover:bg-emerald-800 text-white rounded-lg transition-colors flex items-center gap-1.5">
+                <button type="button" id="btnSubmitTambahAnggota" onclick="submitFormTambahAnggota(this)" class="px-4 py-2 text-xs font-semibold bg-emerald-700 hover:bg-emerald-800 text-white rounded-lg transition-colors flex items-center gap-1.5">
                     <i data-lucide="check" class="w-4 h-4"></i>
                     <span>Konfirmasi & Daftarkan</span>
                 </button>
@@ -1166,7 +1166,11 @@
         }
     }
 
-    function submitFormTambahAnggota() {
+    function submitFormTambahAnggota(btn) {
+        const targetBtn = btn || document.getElementById('btnSubmitTambahAnggota');
+        if (window.setButtonLoading && !window.setButtonLoading(targetBtn, 'Mendaftarkan Anggota...')) {
+            return;
+        }
         document.getElementById('formTambahAnggota').submit();
     }
 </script>

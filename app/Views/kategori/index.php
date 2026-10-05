@@ -259,7 +259,7 @@
                 <button type="button" onclick="closeModal('modalReviewTambahKategori')" class="px-3.5 py-1.5 text-xs font-semibold text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors">
                     &larr; Ubah
                 </button>
-                <button type="button" onclick="submitFormTambahKategori()" class="px-4 py-1.5 text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors flex items-center gap-1.5">
+                <button type="button" id="btnSubmitTambahKategori" onclick="submitFormTambahKategori(this)" class="px-4 py-1.5 text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors flex items-center gap-1.5">
                     <i data-lucide="check" class="w-3.5 h-3.5"></i>
                     <span>Konfirmasi & Simpan</span>
                 </button>
@@ -330,7 +330,11 @@
         openModal('modalReviewTambahKategori');
     }
 
-    function submitFormTambahKategori() {
+    function submitFormTambahKategori(btn) {
+        const targetBtn = btn || document.getElementById('btnSubmitTambahKategori');
+        if (window.setButtonLoading && !window.setButtonLoading(targetBtn, 'Menyimpan Kategori...')) {
+            return;
+        }
         document.getElementById('formTambahKategori').submit();
     }
 </script>

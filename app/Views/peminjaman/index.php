@@ -486,7 +486,7 @@
                 <button type="button" onclick="closeModal('modalReviewPinjam')" class="px-4 py-2 font-semibold text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors">
                     Kembali & Ubah
                 </button>
-                <button type="button" onclick="document.getElementById('formPinjamBaru').submit()" class="px-4 py-2 font-semibold bg-emerald-700 hover:bg-emerald-800 text-white rounded-lg transition-colors flex items-center gap-1.5">
+                <button type="button" id="btnSubmitPinjamBaru" onclick="submitFormPinjamBaru(this)" class="px-4 py-2 font-semibold bg-emerald-700 hover:bg-emerald-800 text-white rounded-lg transition-colors flex items-center gap-1.5">
                     <i data-lucide="check" class="w-4 h-4"></i>
                     <span>Konfirmasi & Catat Pinjaman</span>
                 </button>
@@ -693,6 +693,14 @@
             feedback.className = "text-[11px] font-medium text-rose-600 dark:text-rose-400 mt-1";
             feedback.textContent = `✕ Kode '${code}' tidak ditemukan di opsi Anggota maupun Buku aktif.`;
         }
+    }
+
+    function submitFormPinjamBaru(btn) {
+        const targetBtn = btn || document.getElementById('btnSubmitPinjamBaru');
+        if (window.setButtonLoading && !window.setButtonLoading(targetBtn, 'Mencatat Peminjaman...')) {
+            return;
+        }
+        document.getElementById('formPinjamBaru').submit();
     }
 </script>
 
